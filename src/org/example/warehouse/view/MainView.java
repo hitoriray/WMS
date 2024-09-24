@@ -80,7 +80,7 @@ public class MainView extends JFrame {
         LogoutBtn.addActionListener(mainHandler);
         ExitBtn.addActionListener(mainHandler);
         JLabel imgLabel = new JLabel();
-        ImageIcon img = new ImageIcon("src/org/example/仓库管理系统/background.jpg");
+        ImageIcon img = new ImageIcon("src/org/example/warehouse/background.jpg");
         img.setImage(img.getImage().getScaledInstance(2000, 800, Image.SCALE_DEFAULT));
         imgLabel.setIcon(img);
         CenterPanel.add(imgLabel);
