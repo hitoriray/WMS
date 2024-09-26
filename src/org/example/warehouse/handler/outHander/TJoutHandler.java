@@ -61,7 +61,7 @@ public class TJoutHandler implements ActionListener {
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 System.out.println(formatter.format(date));
                 bo.setTime(formatter.format(date));
-                addckService.addin(bo);
+                addckService.addInbound(bo);
                 JOptionPane.showMessageDialog(null, " 出库成功!" + "您的出库编号为" + "OUT_SimpleBound" + num, "出库", 1);
             } else if (flag == "-1") {
                 JOptionPane.showMessageDialog(null, "抱歉，暂无该产品", "添加", 2);

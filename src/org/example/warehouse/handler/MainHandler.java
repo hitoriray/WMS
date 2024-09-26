@@ -53,25 +53,25 @@ public class MainHandler extends KeyAdapter implements ActionListener {
                 JOptionPane.showMessageDialog(null, "抱歉你暂无此权限", "查询", 2);
             }
         } else if (text.equals("入库")) {
-            if (permissionService.yanzhengInbound(permissionDao) == 1) {
+            if (permissionService.verifyInbound(permissionDao) == 1) {
                 new InView(loginView);
             } else {
                 JOptionPane.showMessageDialog(null, "抱歉你暂无此权限", "入库", 2);
             }
         } else if (text.equals("出库")) {
-            if (permissionService.yanzhengOutbound(permissionDao) == 1) {
+            if (permissionService.verifyOutbound(permissionDao) == 1) {
                 new OutView(loginView);
             } else {
                 JOptionPane.showMessageDialog(null, "抱歉你暂无此权限", "出库", 2);
             }
         } else if (text.equals("仓库管理")) {
-            if (permissionService.yanzhengManager(permissionDao) == 1) {
+            if (permissionService.verifyManager(permissionDao) == 1) {
                 new ManagerView();
             } else {
                 JOptionPane.showMessageDialog(null, "抱歉你暂无此权限", "仓库管理", 2);
             }
         } else if (text.equals("人员档案管理")) {
-            if (permissionService.yanzhengFile(permissionDao) == 1) {
+            if (permissionService.verifyFile(permissionDao) == 1) {
                 new FileView(loginView);
             } else {
                 JOptionPane.showMessageDialog(null, "抱歉你暂无此权限", "人员档案管理", 2);

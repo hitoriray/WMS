@@ -6,6 +6,7 @@ import org.example.warehouse.dao.boundDao;
 import org.example.warehouse.dao.ckDao;
 import org.example.warehouse.utils.JDBCUtil;
 
+import javax.print.attribute.standard.PresentationDirection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,42 +17,30 @@ import java.util.List;
 public class ShowDataInformation {
 
     public static boolean deleteInformation(String name) {
-
         String sql = "delete from userinfo where name=?";
         String sql1 = "delete from users where name=?";
         String sql2 = "delete from permissions where name=?";
-
-        Connection conn;
-        Connection conn1;
-        Connection conn2;
-        PreparedStatement ps = null;
-        PreparedStatement ps1 = null;
-        PreparedStatement ps2 = null;
-        System.out.println(name + "111111111111");
         try {
-            conn = JDBCUtil.getConnection();
-            ps = conn.prepareStatement(sql);
-            ps1 = conn.prepareStatement(sql1);
-            ps2 = conn.prepareStatement(sql2);
+            Connection conn = JDBCUtil.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            PreparedStatement ps1 = conn.prepareStatement(sql1);
+            PreparedStatement ps2 = conn.prepareStatement(sql2);
             ps.setString(1, name);
             ps1.setString(1, name);
             ps2.setString(1, name);
-            ps1.executeUpdate();
-            ps2.executeUpdate();
-            return ps.executeUpdate() == 1;
+//            ps1.executeUpdate();
+//            ps2.executeUpdate();
+            return ps.executeUpdate() == 1 && ps1.executeUpdate() == 1 && ps2.executeUpdate() == 1;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
     public static boolean deleteck(String id) {
-
         String sql = "delete from warehouse where id=?";
-        Connection conn;
-        PreparedStatement ps = null;
         try {
-            conn = JDBCUtil.getConnection();
-            ps = conn.prepareStatement(sql);
+            Connection conn = JDBCUtil.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, id);
             return ps.executeUpdate() == 1;
         } catch (SQLException e) {
@@ -60,15 +49,12 @@ public class ShowDataInformation {
     }
 
     public static List<UserTotalDao> getInformation() {
-        List<UserTotalDao> list;
-        Connection conn;
-        PreparedStatement ps = null;
         String sql = "select name,IDnumber,date,gender,origin,address,type,phone from userinfo";
-        conn = JDBCUtil.getConnection();
+        List<UserTotalDao> list = new LinkedList<>();
         try {
-            ps = conn.prepareStatement(sql);
+            Connection conn = JDBCUtil.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            list = new LinkedList<>();
             while (rs.next()) {
                 UserTotalDao userTotalDao = new UserTotalDao();
                 userTotalDao.setName(rs.getString("name"));
@@ -80,26 +66,20 @@ public class ShowDataInformation {
                 userTotalDao.setType(rs.getString("type"));
                 userTotalDao.setPhone(rs.getString("phone"));
                 list.add(userTotalDao);
-
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return list;
-
-
     }
 
     public String getid() {
-        List<ckDao> list;
-        Connection conn;
-        PreparedStatement ps = null;
         String sql = "select id from warehouse";
-        conn = JDBCUtil.getConnection();
+        List<ckDao> list = new LinkedList<>();
         try {
-            ps = conn.prepareStatement(sql);
+            Connection conn = JDBCUtil.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            list = new LinkedList<>();
             while (rs.next()) {
                 ckDao ck = new ckDao();
                 ck.setId(rs.getString("id"));
@@ -109,23 +89,17 @@ public class ShowDataInformation {
             throw new RuntimeException(e);
         }
         return list.get(list.size() - 1).getId();
-
-
     }
 
     public static List<UserTotalDao> getInformationsingle(String name) {
-        List<UserTotalDao> list;
-        Connection conn;
-        PreparedStatement ps = null;
         String sql = "select name,IDnumber,date,gender,origin,address,type,phone from userinfo";
-        conn = JDBCUtil.getConnection();
+        List<UserTotalDao> list = new LinkedList<>();
         try {
-            ps = conn.prepareStatement(sql);
+            Connection conn = JDBCUtil.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            list = new LinkedList<>();
             while (rs.next()) {
                 if (rs.getString("name").contains(name)) {
-                    System.out.println(rs.getString("name"));
                     UserTotalDao userTotalDao = new UserTotalDao();
                     userTotalDao.setName(rs.getString("name"));
                     userTotalDao.setIDnumber(rs.getString("IDnumber"));
@@ -137,26 +111,20 @@ public class ShowDataInformation {
                     userTotalDao.setPhone(rs.getString("phone"));
                     list.add(userTotalDao);
                 }
-
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return list;
-
-
     }
 
     public static List<PermissionDao> getPermissionInformation() {
-        List<PermissionDao> list;
-        Connection conn;
-        PreparedStatement ps = null;
         String sql = "select name,IDnumber,inquire,inbound,outbound,manager,file from permissions";
-        conn = JDBCUtil.getConnection();
+        List<PermissionDao> list = new LinkedList<>();
         try {
-            ps = conn.prepareStatement(sql);
+            Connection conn = JDBCUtil.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            list = new LinkedList<>();
             while (rs.next()) {
                 PermissionDao permissionDao = new PermissionDao();
                 permissionDao.setName(rs.getString("name"));
@@ -172,21 +140,17 @@ public class ShowDataInformation {
             throw new RuntimeException(e);
         }
         return list;
-
     }
 
-    public static List<PermissionDao> getPermissionInformation1(String s) {
-        List<PermissionDao> list;
-        Connection conn;
-        PreparedStatement ps = null;
+    public static List<PermissionDao> getPermissionInformationByName(String name) {
         String sql = "select name,IDnumber,inquire,inbound,outbound,manager,file from permissions";
-        conn = JDBCUtil.getConnection();
+        List<PermissionDao> list = new LinkedList<>();
         try {
-            ps = conn.prepareStatement(sql);
+            Connection conn = JDBCUtil.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            list = new LinkedList<>();
             while (rs.next()) {
-                if (rs.getString("name").contains(s)) {
+                if (rs.getString("name").contains(name)) {
                     PermissionDao permissionDao = new PermissionDao();
                     permissionDao.setName(rs.getString("name"));
                     permissionDao.setName(rs.getString("IDnumber"));
@@ -197,25 +161,20 @@ public class ShowDataInformation {
                     permissionDao.setFile(rs.getString("file"));
                     list.add(permissionDao);
                 }
-
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return list;
-
     }
 
     public static List<ckDao> getck() {
-        List<ckDao> list;
-        Connection conn;
-        PreparedStatement ps = null;
         String sql = "select id,name,type,unit,remark,inventory,min,max from warehouse";
-        conn = JDBCUtil.getConnection();
+        List<ckDao> list = new LinkedList<>();
         try {
-            ps = conn.prepareStatement(sql);
+            Connection conn = JDBCUtil.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            list = new LinkedList<>();
             while (rs.next()) {
                 ckDao ck = new ckDao();
                 ck.setId(rs.getString("id"));
@@ -227,54 +186,42 @@ public class ShowDataInformation {
                 ck.setMin(rs.getString("min"));
                 ck.setMax(rs.getString("max"));
                 list.add(ck);
-                System.out.println("1111111111111");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
         return list;
-
     }
 
     public static List<ckDao> getckSetup() {
-        List<ckDao> list;
-        Connection conn;
-        PreparedStatement ps = null;
         String sql = "select id,min,max from warehouse";
-        conn = JDBCUtil.getConnection();
+        List<ckDao> list = new LinkedList<>();
         try {
-            ps = conn.prepareStatement(sql);
+            Connection conn = JDBCUtil.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            list = new LinkedList<>();
             while (rs.next()) {
                 ckDao ck = new ckDao();
                 ck.setId(rs.getString("id"));
                 ck.setMin(rs.getString("min"));
                 ck.setMax(rs.getString("max"));
                 list.add(ck);
-                System.out.println("1111111111111");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
         return list;
-
     }
 
-    public static List<ckDao> getckSingle(String name) {
-        List<ckDao> list;
-        Connection conn;
-        PreparedStatement ps = null;
+    public static List<ckDao> getckSingle(String s) {
         String sql = "select  id,name,type,unit,remark,inventory,min,max from warehouse";
-        conn = JDBCUtil.getConnection();
+        List<ckDao> list = new LinkedList<>();
         try {
-            ps = conn.prepareStatement(sql);
+            Connection conn = JDBCUtil.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            list = new LinkedList<>();
             while (rs.next()) {
-                if (rs.getString("id").contains(name) || rs.getString("name").contains(name) || rs.getString("type").contains(name)) {
+                if (rs.getString("id").contains(s) || rs.getString("name").contains(s) || rs.getString("type").contains(s)) {
                     ckDao ck = new ckDao();
                     ck.setId(rs.getString("id"));
                     ck.setName(rs.getString("name"));
@@ -286,7 +233,6 @@ public class ShowDataInformation {
                     ck.setMax(rs.getString("max"));
                     list.add(ck);
                 }
-
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -294,26 +240,23 @@ public class ShowDataInformation {
         return list;
     }
 
-    public static List<boundDao> getIn() {
-        List<boundDao> list;
-        Connection conn;
-        PreparedStatement ps = null;
+    public static List<boundDao> getInbound() {
         String sql = "select Danhao,id,number,boundtype,name,time from inventory";
-        conn = JDBCUtil.getConnection();
+        List<boundDao> list = new LinkedList<>();
         try {
-            ps = conn.prepareStatement(sql);
+            Connection conn = JDBCUtil.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            list = new LinkedList<>();
             while (rs.next()) {
                 if (rs.getString("boundtype").equals("入库")) {
-                    boundDao bo = new boundDao();
-                    bo.setDanhao(rs.getString("Danhao"));
-                    bo.setId(rs.getString("id"));
-                    bo.setNumber(rs.getString("number"));
-                    bo.setBoundtype(rs.getString("boundtype"));
-                    bo.setName(rs.getString("name"));
-                    bo.setTime(rs.getString("time"));
-                    list.add(bo);
+                    boundDao inbound = new boundDao();
+                    inbound.setDanhao(rs.getString("Danhao"));
+                    inbound.setId(rs.getString("id"));
+                    inbound.setNumber(rs.getString("number"));
+                    inbound.setBoundtype(rs.getString("boundtype"));
+                    inbound.setName(rs.getString("name"));
+                    inbound.setTime(rs.getString("time"));
+                    list.add(inbound);
                 }
             }
         } catch (SQLException e) {
@@ -322,26 +265,23 @@ public class ShowDataInformation {
         return list;
     }
 
-    public static List<boundDao> getOut() {
-        List<boundDao> list;
-        Connection conn;
-        PreparedStatement ps = null;
+    public static List<boundDao> getOutbound() {
         String sql = "select Danhao,id,number,boundtype,name,time from inventory";
-        conn = JDBCUtil.getConnection();
+        List<boundDao> list = new LinkedList<>();
         try {
-            ps = conn.prepareStatement(sql);
+            Connection conn = JDBCUtil.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            list = new LinkedList<>();
             while (rs.next()) {
                 if (rs.getString("boundtype").equals("出库")) {
-                    boundDao bo = new boundDao();
-                    bo.setDanhao(rs.getString("Danhao"));
-                    bo.setId(rs.getString("id"));
-                    bo.setNumber(rs.getString("number"));
-                    bo.setBoundtype(rs.getString("boundtype"));
-                    bo.setName(rs.getString("name"));
-                    bo.setTime(rs.getString("time"));
-                    list.add(bo);
+                    boundDao outbound = new boundDao();
+                    outbound.setDanhao(rs.getString("Danhao"));
+                    outbound.setId(rs.getString("id"));
+                    outbound.setNumber(rs.getString("number"));
+                    outbound.setBoundtype(rs.getString("boundtype"));
+                    outbound.setName(rs.getString("name"));
+                    outbound.setTime(rs.getString("time"));
+                    list.add(outbound);
                 }
             }
         } catch (SQLException e) {
@@ -349,6 +289,4 @@ public class ShowDataInformation {
         }
         return list;
     }
-
-
 }

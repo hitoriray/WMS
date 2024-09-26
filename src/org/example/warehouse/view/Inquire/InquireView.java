@@ -71,10 +71,10 @@ public class InquireView extends JFrame {
                 List<ckDao> list = ShowDataInformation.getck();
                 new RemainView(list);
             } else if(text.equals("查询入库情况")) {
-                List<boundDao> list1=ShowDataInformation.getIn();
+                List<boundDao> list1=ShowDataInformation.getInbound();
                 new INBoundView(list1);
             }else if(text.equals("查询出库情况")) {
-                List<boundDao> list1=ShowDataInformation.getOut();
+                List<boundDao> list1=ShowDataInformation.getOutbound();
                 new OUTBoundView(list1);
             }
         }

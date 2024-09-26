@@ -13,97 +13,88 @@ import java.sql.SQLException;
 public class AddckServiceImpl implements AddckService {
     @Override
     public boolean addck(ckDao ck) {
-        StringBuilder sql1 = new StringBuilder();
-        sql1.append("insert into warehouse(id,name,type,unit,remark,inventory,min,max) ");
-        sql1.append("values(?,?,?,?,?,?,?,?)");
-
-        Connection conn1 = null;
-        PreparedStatement ps1 = null;
+        String sql = "insert into warehouse(id,name,type,unit,remark,inventory,min,max) values(?,?,?,?,?,?,?,?)";
         try {
-            conn1 = JDBCUtil.getConnection();
-            ps1 = conn1.prepareStatement(sql1.toString());
-            ps1.setString(1, ck.getId());
-            ps1.setString(2, ck.getName());
-            ps1.setString(3, ck.getType());
-            ps1.setString(4, ck.getUnit());
-            ps1.setString(5, ck.getRemark());
-            ps1.setString(6, "1");
-            ps1.setString(7, "2");
-            ps1.setString(8, "1000");
-            return ps1.executeUpdate() == 1;
+            Connection conn = JDBCUtil.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, ck.getId());
+            ps.setString(2, ck.getName());
+            ps.setString(3, ck.getType());
+            ps.setString(4, ck.getUnit());
+            ps.setString(5, ck.getRemark());
+            ps.setString(6, "1");
+            ps.setString(7, "2");
+            ps.setString(8, "1000");
+            return ps.executeUpdate() == 1;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-
     @Override
-    public void addin(boundDao bo) {
-        StringBuilder sql1 = new StringBuilder();
-        String sql0 = "select Danhao from inventory where Danhao=?";
-        sql1.append("insert into inventory(Danhao,id,number,boundtype,name,time) ");
-        sql1.append("values(?,?,?,?,?,?)");
-
-        Connection conn1 = null;
-        PreparedStatement ps1 = null;
-        Connection conn0 = null;
-        PreparedStatement ps0 = null;
-        ResultSet resultSet = null;
-        String num = bo.getDanhao();
-        conn0 = JDBCUtil.getConnection();
+    public void addInbound(boundDao bound) {
+        String sql1 = "select Danhao from inventory where Danhao=?";
+        String sql2 = "insert into inventory(Danhao,id,number,boundtype,name,time) values(?,?,?,?,?,?)";
+        String newDanhao = bound.getDanhao();
         try {
-            int i = 0;
-            ps0 = conn0.prepareStatement(sql0);
-
-            while (i < 1) {
-                ps0.setString(1, num);
-                resultSet = ps0.executeQuery();
-                if (resultSet.next()) {
-                    String Danhao1 = resultSet.getString(1);
-                    if (Danhao1.equals(bo.getDanhao())) {
+            Connection conn1 = JDBCUtil.getConnection();
+            /*while (i < 1) {
+                ps1.setString(1, s);
+                ResultSet rs = ps1.executeQuery();
+                if (rs.next()) {
+                    String danhao = rs.getString(1);
+                    if (danhao.equals(bound.getDanhao())) {
                         int num1 = (int) (Math.random() * 10);
                         int num2 = (int) (Math.random() * 10);
                         int num3 = (int) (Math.random() * 10);
                         int num4 = (int) (Math.random() * 10);
-                        num = num1 + String.valueOf(num2) + num3 + num4;
+                        s = num1 + String.valueOf(num2) + num3 + num4;
                     } else {
                         i = 1;
                     }
                 }
                 i = 1;
+            }*/
+            PreparedStatement ps1 = conn1.prepareStatement(sql1);
+            ps1.setString(1, bound.getDanhao());
+            ResultSet rs = ps1.executeQuery();
+            if (rs.next()) {
+                String danhao = rs.getString(1);
+                if (danhao.equals(bound.getDanhao())) {
+                    int num1 = (int) (Math.random() * 10);
+                    int num2 = (int) (Math.random() * 10);
+                    int num3 = (int) (Math.random() * 10);
+                    int num4 = (int) (Math.random() * 10);
+                    newDanhao = String.valueOf(num1) + num2 + num3 + num4;
+                }
             }
-            conn1 = JDBCUtil.getConnection();
-            ps1 = conn1.prepareStatement(sql1.toString());
-            ps1.setString(1, num);
-            ps1.setString(2, bo.getId());
-            ps1.setString(3, bo.getNumber());
-            ps1.setString(4, bo.getBoundtype());
-            ps1.setString(5, bo.getName());
-            ps1.setString(6, bo.getTime());
-            ps1.executeUpdate();
+            Connection conn2 = JDBCUtil.getConnection();
+            PreparedStatement ps2 = conn2.prepareStatement(sql2);
+            ps2.setString(1, newDanhao);
+            ps2.setString(2, bound.getId());
+            ps2.setString(3, bound.getNumber());
+            ps2.setString(4, bound.getBoundtype());
+            ps2.setString(5, bound.getName());
+            ps2.setString(6, bound.getTime());
+            ps2.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public void addout(boundDao bo) {
-        StringBuilder sql1 = new StringBuilder();
-        sql1.append("insert into inventory(Danhao,id,number,boundtype,name,time) ");
-        sql1.append("values(?,?,?,?,?,?)");
-
-        Connection conn1 = null;
-        PreparedStatement ps1 = null;
+    public void addOutbound(boundDao bound) {
+        String sql = "insert into inventory(Danhao,id,number,boundtype,name,time) values(?,?,?,?,?,?)";
         try {
-            conn1 = JDBCUtil.getConnection();
-            ps1 = conn1.prepareStatement(sql1.toString());
-            ps1.setString(1, bo.getDanhao());
-            ps1.setString(2, bo.getId());
-            ps1.setString(3, bo.getNumber());
-            ps1.setString(4, bo.getBoundtype());
-            ps1.setString(5, bo.getName());
-            ps1.setString(6, bo.getTime());
-            ps1.executeUpdate();
+            Connection conn = JDBCUtil.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, bound.getDanhao());
+            ps.setString(2, bound.getId());
+            ps.setString(3, bound.getNumber());
+            ps.setString(4, bound.getBoundtype());
+            ps.setString(5, bound.getName());
+            ps.setString(6, bound.getTime());
+            ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

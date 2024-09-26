@@ -8,7 +8,6 @@ public class ckDao {
     private String remark;
     private String inventory;
     private String min;
-
     private String max;
 
     public String getId() {

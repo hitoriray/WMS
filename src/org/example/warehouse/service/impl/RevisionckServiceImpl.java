@@ -12,15 +12,10 @@ import java.sql.SQLException;
 public class RevisionckServiceImpl implements RevisionckService {
     @Override
     public boolean Revisionck(ckDao ck) {
-        StringBuilder sql = new StringBuilder();
-        sql.append("update warehouse set name=?,type=?,unit=?,remark=?");
-        sql.append("where id=?");
-        Connection conn = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
+        String sql = "update warehouse set name=?,type=?,unit=?,remark=? where id=?";
         try {
-            conn = JDBCUtil.getConnection();
-            ps = conn.prepareStatement(sql.toString());
+            Connection conn = JDBCUtil.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql.toString());
             ps.setString(1, ck.getName());
             ps.setString(2, ck.getType());
             ps.setString(3, ck.getUnit());
@@ -33,15 +28,10 @@ public class RevisionckServiceImpl implements RevisionckService {
     }
 
     public boolean revisionsetup(ckDao ck) {
-        StringBuilder sql = new StringBuilder();
-        sql.append("update warehouse set max=?,min=?");
-        sql.append("where name=?");
-        Connection conn = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
+        String sql = "update warehouse set max=?,min=? where name=?";
         try {
-            conn = JDBCUtil.getConnection();
-            ps = conn.prepareStatement(sql.toString());
+            Connection conn = JDBCUtil.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql.toString());
             ps.setString(1, ck.getMax());
             ps.setString(2, ck.getMin());
             ps.setString(3, ck.getName());
@@ -49,29 +39,19 @@ public class RevisionckServiceImpl implements RevisionckService {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-
     }
 
     @Override
     public String revisionnumber(ckDao ck) {
-        StringBuilder sql1 = new StringBuilder();
         String sql0 = "select id,inventory,min,max from warehouse";
-        sql1.append("update warehouse set inventory=?");
-        sql1.append("where id=?");
-        Connection conn = null;
-        PreparedStatement ps0 = null;
-        PreparedStatement ps1 = null;
-        ResultSet rs0 = null;
-        ResultSet rs1 = null;
+        String sql1 = "update warehouse set inventory=? where id=?";
         try {
-            conn = JDBCUtil.getConnection();
-            ps0 = conn.prepareStatement(sql0);
-            ps1 = conn.prepareStatement(sql1.toString());
-            rs0 = ps0.executeQuery();
-            String inventory;
+            Connection conn = JDBCUtil.getConnection();
+            PreparedStatement ps0 = conn.prepareStatement(sql0);
+            PreparedStatement ps1 = conn.prepareStatement(sql1);
+            ResultSet rs0 = ps0.executeQuery();
             while (rs0.next()) {
-                inventory = rs0.getString("inventory");
+                String inventory = rs0.getString("inventory");
                 if (rs0.getString("id").equals(ck.getId())) {
                     if (Integer.parseInt(rs0.getString("max")) < Integer.parseInt(ck.getInventory())) {
                         return "2";
@@ -84,34 +64,24 @@ public class RevisionckServiceImpl implements RevisionckService {
                         return "1";
                     }
                 }
-
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return "-1";
-
     }
 
     @Override
     public String revisionnumber1(ckDao ck) {
-        StringBuilder sql1 = new StringBuilder();
         String sql0 = "select id,inventory,min,max from warehouse";
-        sql1.append("update warehouse set inventory=?");
-        sql1.append("where id=?");
-        Connection conn = null;
-        PreparedStatement ps0 = null;
-        PreparedStatement ps1 = null;
-        ResultSet rs0 = null;
-        ResultSet rs1 = null;
+        String sql1 = "update warehouse set inventory=? where id=?";
         try {
-            conn = JDBCUtil.getConnection();
-            ps0 = conn.prepareStatement(sql0);
-            ps1 = conn.prepareStatement(sql1.toString());
-            rs0 = ps0.executeQuery();
-            String inventory;
+            Connection conn = JDBCUtil.getConnection();
+            PreparedStatement ps0 = conn.prepareStatement(sql0);
+            PreparedStatement ps1 = conn.prepareStatement(sql1);
+            ResultSet rs0 = ps0.executeQuery();
             while (rs0.next()) {
-                inventory = rs0.getString("inventory");
+                String inventory = rs0.getString("inventory");
                 if (rs0.getString("id").equals(ck.getId())) {
                     if (Integer.parseInt(rs0.getString("max")) < Integer.parseInt(ck.getInventory())) {
                         return "2";
@@ -136,55 +106,36 @@ public class RevisionckServiceImpl implements RevisionckService {
 
     @Override
     public void revisionMoreNumber(ckDao ck) {
-        StringBuilder sql1 = new StringBuilder();
         String sql0 = "select inventory from warehouse where id=?";
-        sql1.append("update warehouse set inventory=?");
-        sql1.append("where id=?");
-        Connection conn = null;
-        PreparedStatement ps0 = null;
-        PreparedStatement ps1 = null;
-        ResultSet rs0 = null;
-        ResultSet rs1 = null;
+        String sql1 = "update warehouse set inventory=? where id=?";
         try {
-            conn = JDBCUtil.getConnection();
-            ps0 = conn.prepareStatement(sql0);
+            Connection conn = JDBCUtil.getConnection();
+            PreparedStatement ps0 = conn.prepareStatement(sql0);
             ps0.setString(1, ck.getId());
-            ps1 = conn.prepareStatement(sql1.toString());
-            rs0 = ps0.executeQuery();
-            String inventory;
-            rs0.next();
-            inventory = rs0.getString("inventory");
-
-            ps1.setString(1, String.valueOf(Integer.parseInt(ck.getInventory()) + Integer.parseInt(inventory)));
-            ps1.setString(2, ck.getId());
-            System.out.println("ps1" + inventory);
-            System.out.println("ps1" + ck.getInventory());
-            ps1.executeUpdate();
+            PreparedStatement ps1 = conn.prepareStatement(sql1);
+            ResultSet rs0 = ps0.executeQuery();
+            if (rs0.next()) {
+                String inventory = rs0.getString("inventory");
+                ps1.setString(1, String.valueOf(Integer.parseInt(ck.getInventory()) + Integer.parseInt(inventory)));
+                ps1.setString(2, ck.getId());
+                ps1.executeUpdate();
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-
     }
 
     @Override
     public String revisionMoreNumber_out(ckDao ck) {
-        StringBuilder sql1 = new StringBuilder();
         String sql0 = "select id,inventory,min,max from warehouse where id=?";
-        sql1.append("update warehouse set inventory=?");
-        sql1.append("where id=?");
-        Connection conn = null;
-        PreparedStatement ps0 = null;
-        PreparedStatement ps1 = null;
-        ResultSet rs0 = null;
-        ResultSet rs1 = null;
+        String sql1 = "update warehouse set inventory=? where id=?";
         try {
-            conn = JDBCUtil.getConnection();
-            ps0 = conn.prepareStatement(sql0);
+            Connection conn = JDBCUtil.getConnection();
+            PreparedStatement ps0 = conn.prepareStatement(sql0);
             ps0.setString(1, ck.getId());
-            ps1 = conn.prepareStatement(sql1.toString());
-            rs0 = ps0.executeQuery();
-            String inventory;
+            PreparedStatement ps1 = conn.prepareStatement(sql1);
+            ResultSet rs0 = ps0.executeQuery();
+            String inventory = null;
             while (rs0.next()) {
                 inventory = rs0.getString("inventory");
                 System.out.println(inventory + "inventory1");
@@ -197,7 +148,6 @@ public class RevisionckServiceImpl implements RevisionckService {
                     System.out.println(ck.getInventory() + "<>inventory");
                     return "5";
                 } else {
-
                     return "1";
                 }
             }
@@ -209,25 +159,18 @@ public class RevisionckServiceImpl implements RevisionckService {
 
     @Override
     public void revisionMoreNumber_outnew(ckDao ck) {
-        StringBuilder sql1 = new StringBuilder();
         String sql0 = "select id,inventory,min,max from warehouse where id=?";
-        sql1.append("update warehouse set inventory=?");
-        sql1.append("where id=?");
-        Connection conn = null;
-        PreparedStatement ps0 = null;
-        PreparedStatement ps1 = null;
-        ResultSet rs0 = null;
-        ResultSet rs1 = null;
+        String sql1 = "update warehouse set inventory=? where id=?";
         try {
-            conn = JDBCUtil.getConnection();
-            ps0 = conn.prepareStatement(sql0);
+            Connection conn = JDBCUtil.getConnection();
+            PreparedStatement ps0 = conn.prepareStatement(sql0);
             ps0.setString(1, ck.getId());
-            ps1 = conn.prepareStatement(sql1.toString());
-            rs0 = ps0.executeQuery();
-            String inventory;
+            PreparedStatement ps1 = conn.prepareStatement(sql1.toString());
+            ResultSet rs0 = ps0.executeQuery();
+            String inventory = null;
             while (rs0.next()) {
                 inventory = rs0.getString("inventory");
-                System.out.println(inventory + "inventory1");
+                System.out.println("inventory: " + inventory);
                 ps1.setString(1, String.valueOf(Integer.parseInt(inventory) - Integer.parseInt(ck.getInventory())));
                 ps1.setString(2, ck.getId());
                 ps1.executeUpdate();

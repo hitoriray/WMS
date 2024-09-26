@@ -14,31 +14,27 @@ import java.util.List;
 public class ReportServiceImpl implements ReportService {
     @Override
     public List<boundDao> bound(String type, String Danhao) {
-        List<boundDao> list;
-        Connection conn;
-        PreparedStatement ps = null;
         String sql = "select Danhao,id,number,boundtype,name,time from inventory";
-        conn = JDBCUtil.getConnection();
+        List<boundDao> list = new LinkedList<>();
         try {
-            ps = conn.prepareStatement(sql);
+            Connection conn = JDBCUtil.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            list = new LinkedList<>();
             while (rs.next()) {
                 if (type.equals(rs.getString("boundtype")) && Danhao.equals(rs.getString("Danhao"))) {
-                    boundDao bo = new boundDao();
-                    bo.setDanhao(rs.getString("Danhao"));
-                    bo.setId(rs.getString("id"));
-                    bo.setNumber(rs.getString("number"));
-                    bo.setBoundtype(rs.getString("boundtype"));
-                    bo.setName(rs.getString("name"));
-                    bo.setTime(rs.getString("time"));
-                    list.add(bo);
+                    boundDao bound = new boundDao();
+                    bound.setDanhao(rs.getString("Danhao"));
+                    bound.setId(rs.getString("id"));
+                    bound.setNumber(rs.getString("number"));
+                    bound.setBoundtype(rs.getString("boundtype"));
+                    bound.setName(rs.getString("name"));
+                    bound.setTime(rs.getString("time"));
+                    list.add(bound);
                 }
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return list;
-
     }
 }

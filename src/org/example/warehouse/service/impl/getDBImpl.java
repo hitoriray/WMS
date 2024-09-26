@@ -12,15 +12,12 @@ import java.util.List;
 
 public class getDBImpl {
     public List<ckDao> get() {
-        List<ckDao> list;
-        Connection conn;
-        PreparedStatement ps = null;
         String sql = "select name,min,max from warehouse";
-        conn = JDBCUtil.getConnection();
+        List<ckDao> list = new LinkedList<>();
         try {
-            ps = conn.prepareStatement(sql);
+            Connection conn = JDBCUtil.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            list = new LinkedList<>();
             while (rs.next()) {
                 ckDao ck = new ckDao();
                 ck.setName(rs.getString("name"));
@@ -33,5 +30,4 @@ public class getDBImpl {
         }
         return list;
     }
-
 }

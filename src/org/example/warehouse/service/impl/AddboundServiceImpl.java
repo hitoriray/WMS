@@ -10,22 +10,18 @@ import java.sql.SQLException;
 
 public class AddboundServiceImpl implements AddboundService {
     @Override
-    public void addbound(boundDao bo) {
-        StringBuilder sql1 = new StringBuilder();
-        sql1.append("insert into inventory(Danhao,id,number,boundtype,name,time)");
-        sql1.append("values(?,?,?,?,?,?)");
-        Connection conn1 = null;
-        PreparedStatement ps1 = null;
+    public void addbound(boundDao bound) {
+        String sql = "insert into inventory(Danhao,id,number,boundtype,name,time) values(?,?,?,?,?,?)";
         try {
-            conn1 = JDBCUtil.getConnection();
-            ps1 = conn1.prepareStatement(sql1.toString());
-            ps1.setString(1, bo.getDanhao());
-            ps1.setString(2, bo.getId());
-            ps1.setString(3, bo.getNumber());
-            ps1.setString(4, bo.getBoundtype());
-            ps1.setString(5, bo.getName());
-            ps1.setString(6, bo.getTime());
-            ps1.executeUpdate();
+            Connection conn = JDBCUtil.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, bound.getDanhao());
+            ps.setString(2, bound.getId());
+            ps.setString(3, bound.getNumber());
+            ps.setString(4, bound.getBoundtype());
+            ps.setString(5, bound.getName());
+            ps.setString(6, bound.getTime());
+            ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

@@ -5,5 +5,5 @@ import org.example.warehouse.dao.UserTotalDao;
 public interface RevisionService {
     boolean yangzhenRevision(UserTotalDao userTotalDao);
 
-    void updatepwd(String oldpwd, String pwd);
+    void modifyPwd(String oldpwd, String pwd);
 }

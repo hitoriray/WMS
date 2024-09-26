@@ -55,7 +55,7 @@ public class MoreOutHandler implements ActionListener {
                 }
             }
             for (int i = 0; i < rows; i++) {
-                boolean yanzhengid = userService.yanzhengid((String) moreOutView.table.getValueAt(i, 0), (String) moreOutView.table.getValueAt(i, 1));
+                boolean yanzhengid = userService.verifyId((String) moreOutView.table.getValueAt(i, 0), (String) moreOutView.table.getValueAt(i, 1));
                 if (!yanzhengid) {
                     JOptionPane.showMessageDialog(null, "您输入的信息有误", "出库", 2);
                     return;

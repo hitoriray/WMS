@@ -47,7 +47,7 @@ public class AddPersonHandler extends KeyAdapter implements ActionListener {
             if (!check(date)) {
                 JOptionPane.showMessageDialog(null, "出生日期不合规", "添加", 2);
             } else {
-                boolean ok = mainUserService.yanzhengadd(userTotalDao);
+                boolean ok = mainUserService.verifyAdd(userTotalDao);
                 if (ok) {
                     JOptionPane.showMessageDialog(null, "添加成功", "添加", 1);
                 } else {

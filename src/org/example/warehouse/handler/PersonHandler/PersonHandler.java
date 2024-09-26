@@ -35,9 +35,9 @@ public class PersonHandler implements ActionListener {
             }
 
             UserService userService=new UserServiceImpl();
-            Boolean b = userService.yanzhengIDnumber(text1,name);
+            Boolean b = userService.verifyIDnumberByName(text1,name);
             if(b){
-                boolean c = userService.yanzhengOldpwd(text2);
+                boolean c = userService.verifyPwd(text2);
                 if(c){
                     if(text2.equals(text3)){
 
@@ -47,7 +47,7 @@ public class PersonHandler implements ActionListener {
 
                     if(text3.equals(text4)){
                        RevisionService revisionService =new ReviosionPersonImpl();
-                       revisionService.updatepwd(text2,text4);
+                       revisionService.modifyPwd(text2,text4);
                         JOptionPane.showMessageDialog(null,"修改成功","修改",1);
                     } else{
                         JOptionPane.showMessageDialog(null,"两次密码不一致！","修改",2);

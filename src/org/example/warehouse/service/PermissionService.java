@@ -5,13 +5,13 @@ import org.example.warehouse.dao.PermissionDao;
 public interface PermissionService {
     int yanzhengInquire(PermissionDao permissionDao);
 
-    int yanzhengInbound(PermissionDao permissionDao);
+    int verifyInbound(PermissionDao permissionDao);
 
-    int yanzhengOutbound(PermissionDao permissionDao);
+    int verifyOutbound(PermissionDao permissionDao);
 
-    int yanzhengManager(PermissionDao permissionDao);
+    int verifyManager(PermissionDao permissionDao);
 
-    int yanzhengFile(PermissionDao permissionDao);
+    int verifyFile(PermissionDao permissionDao);
 
-    int yanzhengPerson(PermissionDao permissionDao);
+    int verifyPerson(PermissionDao permissionDao);
 }

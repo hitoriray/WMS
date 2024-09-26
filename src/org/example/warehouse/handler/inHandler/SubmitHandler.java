@@ -59,7 +59,7 @@ public class SubmitHandler implements ActionListener {
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 System.out.println(formatter.format(date));
                 bo.setTime(formatter.format(date));
-                addckService.addin(bo);
+                addckService.addInbound(bo);
                 JOptionPane.showMessageDialog(null, "入库成功!" + "您的入库编号为" + "IN_SimpleBound" + num, "入库", 1);
 
             } else if (flag == "-1") {

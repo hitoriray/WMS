@@ -36,7 +36,7 @@ public class LoginHandler extends KeyAdapter implements ActionListener {
             userDao.setPwd(text2);
             PermissionDao permissionDao = new PermissionDao();
             permissionDao.setName(text1);
-            boolean flag = userService.yanzhengadmin(userDao);
+            boolean flag = userService.verifyAdmin(userDao);
             if (flag) {
                 int s = JOptionPane.showConfirmDialog(null, userDao.getName() + "你好", "登录", JOptionPane.OK_CANCEL_OPTION);
                 if (JOptionPane.OK_CANCEL_OPTION != s) {

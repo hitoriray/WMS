@@ -62,7 +62,7 @@ public class MoreInHandler implements ActionListener {
                 }
             }
             for (int i = 0; i < rows; i++) {
-                boolean validId = userService.yanzhengid((String) moreInView.table.getValueAt(i, 0), (String) moreInView.table.getValueAt(i, 1));
+                boolean validId = userService.verifyId((String) moreInView.table.getValueAt(i, 0), (String) moreInView.table.getValueAt(i, 1));
                 if (!validId) {
                     JOptionPane.showMessageDialog(null, "您输入的信息有误", "入库", 2);
                     return;

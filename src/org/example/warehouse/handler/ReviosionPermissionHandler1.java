@@ -22,7 +22,7 @@ public class ReviosionPermissionHandler1 implements ActionListener {
         String text = jButton.getText();
         if (text.equals("查询人员")) {
             String s = showPermission.getInformation();
-            List<PermissionDao> list = ShowDataInformation.getPermissionInformation1(s);
+            List<PermissionDao> list = ShowDataInformation.getPermissionInformationByName(s);
             new ShowPermission(list);
         }
     }

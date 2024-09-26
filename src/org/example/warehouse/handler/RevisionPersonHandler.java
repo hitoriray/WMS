@@ -40,7 +40,7 @@ public class RevisionPersonHandler extends KeyAdapter implements ActionListener 
                 return;
             }
             UserService userService = new UserServiceImpl();
-            boolean yanzhengname = userService.yanzhengname(name);
+            boolean yanzhengname = userService.verifyName(name);
             if ((yanzhengname)) {
             } else {
                 JOptionPane.showMessageDialog(null, "输入人员不存在！", "修改", 2);

@@ -11,169 +11,112 @@ import java.sql.SQLException;
 
 public class UserServiceImpl implements UserService {
     @Override
-    public boolean yanzhengadmin(UserDao userDao) {
-        String username = userDao.getName();
-        String pwd1 = userDao.getPwd();
+    public boolean verifyAdmin(UserDao userDao) {
         String sql = "select pwd from users where name=?";
-        Connection conn = null;
-        PreparedStatement ps = null;
-        conn = JDBCUtil.getConnection();
+        String username = userDao.getName();
+        String pwd = userDao.getPwd();
         try {
-            ps = conn.prepareStatement(sql);
+            Connection conn = JDBCUtil.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, username);
-            ResultSet resultSet = ps.executeQuery();
-            if (resultSet.next()) {
-                String pwd = resultSet.getString(1);
-                System.out.println(pwd);
-                if (pwd1.equals(pwd)) {
-                    return true;
-                } else {
-                    return false;
-                }
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                String rightPwd = rs.getString(1);
+                return pwd.equals(rightPwd);
             }
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
         return false;
     }
 
-
     @Override
-    public boolean yanzhengIDnumber(String IDnumber, String name) {
-//        String username= userDao.getName();
-//        String pwd1= userDao.getPwd();
+    public boolean verifyIDnumberByName(String IDnumber, String name) {
         String sql = "select IDnumber from userinfo where name=?";
-        Connection conn = null;
-        PreparedStatement ps = null;
-        conn = JDBCUtil.getConnection();
         try {
-            ps = conn.prepareStatement(sql);
+            Connection conn = JDBCUtil.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, name);
             ResultSet resultSet = ps.executeQuery();
             if (resultSet.next()) {
                 String id = resultSet.getString(1);
-                System.out.println("iiiiiiiiiiiiii" + id);
-                System.out.println("IDnumber" + IDnumber);
-//                System.out.println(pwd);
-                if (id.equals(IDnumber)) {
-                    return true;
-                } else {
-                    return false;
-                }
+                return id.equals(IDnumber);
             }
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
         return false;
     }
 
     @Override
-    public boolean yanzhengOldpwd(String oldpwd) {
+    public boolean verifyPwd(String oldpwd) {
         String sql = "select pwd from users where pwd=?";
-        Connection conn = null;
-        PreparedStatement ps = null;
-        conn = JDBCUtil.getConnection();
         try {
-            ps = conn.prepareStatement(sql);
+            Connection conn = JDBCUtil.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, oldpwd);
             ResultSet resultSet = ps.executeQuery();
             if (resultSet.next()) {
                 String pwd = resultSet.getString(1);
-//                System.out.println(pwd);
-                if (oldpwd.equals(pwd)) {
-                    return true;
-                } else {
-                    return false;
-                }
+                return oldpwd.equals(pwd);
             }
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
         return false;
     }
 
     @Override
-    public boolean yanzhengid(String id, String type) {
+    public boolean verifyId(String id, String type) {
         String sql = "select id,type from warehouse where id=?";
-        Connection conn = null;
-        PreparedStatement ps = null;
-        conn = JDBCUtil.getConnection();
         try {
-            ps = conn.prepareStatement(sql);
+            Connection conn = JDBCUtil.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, id);
             ResultSet resultSet = ps.executeQuery();
             if (resultSet.next()) {
                 String id1 = resultSet.getString(1);
                 String type1 = resultSet.getString(2);
-                if (id1.equals(id) && type1.equals(type)) {
-                    return true;
-                } else {
-                    return false;
-                }
+                return id1.equals(id) && type1.equals(type);
             }
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
         return false;
     }
 
     @Override
-    public boolean yanzhengname(String name) {
+    public boolean verifyName(String name) {
         String sql = "select name from userinfo where name=?";
-        Connection conn = null;
-        PreparedStatement ps = null;
-        conn = JDBCUtil.getConnection();
         try {
-            ps = conn.prepareStatement(sql);
+            Connection conn = JDBCUtil.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, name);
             ResultSet resultSet = ps.executeQuery();
             if (resultSet.next()) {
                 String name1 = resultSet.getString(1);
-                System.out.println(name);
-                if (name1.equals(name)) {
-                    return true;
-                } else {
-                    return false;
-                }
+                return name1.equals(name);
             }
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
         return false;
     }
 
     @Override
     public String selectID(String name) {
         String sql = "select IDnumber from userinfo where name=?";
-        Connection conn = null;
-        PreparedStatement ps = null;
-        conn = JDBCUtil.getConnection();
         try {
-            ps = conn.prepareStatement(sql);
+            Connection conn = JDBCUtil.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, name);
             ResultSet resultSet = ps.executeQuery();
             if (resultSet.next()) {
-                String id = resultSet.getString(1);
-                return id;
+                return resultSet.getString(1);
             }
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
         return null;
-
     }
-
-
 }

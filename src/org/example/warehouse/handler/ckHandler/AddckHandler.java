@@ -23,12 +23,12 @@ public class AddckHandler implements ActionListener {
         if (text.equals("添加")) {
             AddckService addckService = new AddckServiceImpl();
             ckDao ck = addckView.Getck();
-            if (addckView.Getck().getId().equals("") || addckView.Getck().getName().equals("") || addckView.Getck().getType().equals("") || addckView.Getck().getUnit().equals("") || addckView.Getck().getRemark().equals("")) {
+            if (ck.getId().equals("") || ck.getName().equals("") || ck.getType().equals("") || ck.getUnit().equals("") || ck.getRemark().equals("")) {
                 JOptionPane.showMessageDialog(null, "请输入完整信息！", "添加", 2);
                 return;
             }
-            boolean addck = addckService.addck(ck);
-            if (addck) {
+            boolean ok = addckService.addck(ck);
+            if (ok) {
                 JOptionPane.showMessageDialog(null, "添加成功", "添加", 1);
             } else {
                 JOptionPane.showMessageDialog(null, "添加失败", "添加", 2);

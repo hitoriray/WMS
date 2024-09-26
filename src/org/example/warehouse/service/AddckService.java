@@ -6,7 +6,7 @@ import org.example.warehouse.dao.ckDao;
 public interface AddckService {
     boolean addck(ckDao ck);
 
-    void addin(boundDao bo);
+    void addInbound(boundDao bo);
 
-    void addout(boundDao bo);
+    void addOutbound(boundDao bo);
 }
