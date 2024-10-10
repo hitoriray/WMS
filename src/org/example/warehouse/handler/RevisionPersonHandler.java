@@ -51,7 +51,7 @@ public class RevisionPersonHandler extends KeyAdapter implements ActionListener 
             if (!matcher.matches()) {
                 JOptionPane.showMessageDialog(null, "身份证号不合法", "修改", 2);
             } else {
-                boolean yanzhengrevision = revisionService.yangzhenRevision(userTotalDao);
+                boolean yanzhengrevision = revisionService.verifyRevision(userTotalDao);
                 if (yanzhengrevision) {
                     JOptionPane.showMessageDialog(null, "修改成功", "修改", 1);
                 } else {

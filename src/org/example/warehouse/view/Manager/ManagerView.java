@@ -1,6 +1,6 @@
 package org.example.warehouse.view.Manager;
 
-import org.example.warehouse.dao.ckDao;
+import org.example.warehouse.dao.warehouseDao;
 import org.example.warehouse.service.impl.ShowDataInformation;
 import org.example.warehouse.view.Inquire.ShowckView1;
 
@@ -10,11 +10,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-public class ManagerView extends  JFrame {
+public class ManagerView extends JFrame {
     JMenuBar menuBar = new JMenuBar();
 
 
-    public ManagerView(){
+    public ManagerView() {
         super("仓库管理");
         JMenuBar menuBar = new JMenuBar();
         setJMenuBar(menuBar);
@@ -52,24 +52,25 @@ public class ManagerView extends  JFrame {
         setVisible(true);
 
     }
+
     private class ItemListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
 
             JMenuItem menuItem = (JMenuItem) e.getSource();
             String text = menuItem.getText();
-            if(text.equals("添加货物")){
-                new AddckView();
-            }else if(text.equals("修改货物")){
-                new RevisionckView();
-            }else if(text.equals("查询（删除）货物")) {
-                List<ckDao> list = ShowDataInformation.getck();
+            if (text.equals("添加货物")) {
+                new AddItemView();
+            } else if (text.equals("修改货物")) {
+                new RevisionItemView();
+            } else if (text.equals("查询（删除）货物")) {
+                List<warehouseDao> list = ShowDataInformation.getck();
                 new ShowckView1(list);
-            }else if(text.equals("查看设置")){
-                List<ckDao> list=ShowDataInformation.getckSetup();
+            } else if (text.equals("查看设置")) {
+                List<warehouseDao> list = ShowDataInformation.getckSetup();
                 new LookSetupView(list);
 
-            }else if(text.equals("修改设置")){
+            } else if (text.equals("修改设置")) {
                 new RevisionSetupView();
             }
 

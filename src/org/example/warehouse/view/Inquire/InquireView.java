@@ -1,7 +1,7 @@
 package org.example.warehouse.view.Inquire;
 
 import org.example.warehouse.dao.boundDao;
-import org.example.warehouse.dao.ckDao;
+import org.example.warehouse.dao.warehouseDao;
 import org.example.warehouse.service.impl.ShowDataInformation;
 
 import javax.swing.*;
@@ -11,11 +11,10 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 public class InquireView extends JFrame {
-    JFrame jFrame=new JFrame();
+    JFrame jFrame = new JFrame();
     JMenuBar menuBar = new JMenuBar();
 
-
-    public InquireView(){
+    public InquireView() {
         super("查询");
         JMenuBar menuBar = new JMenuBar();
         setJMenuBar(menuBar);
@@ -49,39 +48,39 @@ public class InquireView extends JFrame {
         Font font = new Font("宋体", Font.PLAIN, 20);
 
 
-        setSize(600,400);
+        setSize(600, 400);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setVisible(true);
 
     }
+
     private class ItemListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
 
             JMenuItem menuItem = (JMenuItem) e.getSource();
             String text = menuItem.getText();
-            if(text.equals("查询单个货物")){
+            if (text.equals("查询单个货物")) {
                 new SingleckView();
 
-            }else if(text.equals("查询所有货物")){
-                List<ckDao> list = ShowDataInformation.getck();
+            } else if (text.equals("查询所有货物")) {
+                List<warehouseDao> list = ShowDataInformation.getck();
                 new ShowckView(list);
-            }else if(text.equals("查询剩余库存")) {
-                List<ckDao> list = ShowDataInformation.getck();
+            } else if (text.equals("查询剩余库存")) {
+                List<warehouseDao> list = ShowDataInformation.getck();
                 new RemainView(list);
-            } else if(text.equals("查询入库情况")) {
-                List<boundDao> list1=ShowDataInformation.getInbound();
+            } else if (text.equals("查询入库情况")) {
+                List<boundDao> list1 = ShowDataInformation.getInbound();
                 new INBoundView(list1);
-            }else if(text.equals("查询出库情况")) {
-                List<boundDao> list1=ShowDataInformation.getOutbound();
+            } else if (text.equals("查询出库情况")) {
+                List<boundDao> list1 = ShowDataInformation.getOutbound();
                 new OUTBoundView(list1);
             }
         }
     }
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         new InquireView();
     }
 

@@ -1,12 +1,12 @@
 package org.example.warehouse.handler.outHander;
 
 import org.example.warehouse.dao.boundDao;
-import org.example.warehouse.dao.ckDao;
-import org.example.warehouse.service.AddboundService;
-import org.example.warehouse.service.RevisionckService;
+import org.example.warehouse.dao.warehouseDao;
+import org.example.warehouse.service.AddBoundService;
+import org.example.warehouse.service.RevisionItemService;
 import org.example.warehouse.service.UserService;
-import org.example.warehouse.service.impl.AddboundServiceImpl;
-import org.example.warehouse.service.impl.RevisionckServiceImpl;
+import org.example.warehouse.service.impl.AddBoundServiceImpl;
+import org.example.warehouse.service.impl.RevisionItemServiceImpl;
 import org.example.warehouse.service.impl.ShowDataInformation;
 import org.example.warehouse.service.impl.UserServiceImpl;
 import org.example.warehouse.view.Inquire.ShowckView;
@@ -39,13 +39,17 @@ public class MoreOutHandler implements ActionListener {
             moreOutView.tableModel.addRow(rowValues);
         } else if (text.equals("确认出库")) {
             int rows = moreOutView.table.getRowCount();
+            if (rows == 0) {
+                JOptionPane.showMessageDialog(null, "出库信息不完整！", " 出库", 2);
+                return;
+            }
             int cols = moreOutView.table.getColumnCount();
-            System.out.println("rows" + rows);
-            System.out.println("cols" + cols);
+//            System.out.println("rows" + rows);
+//            System.out.println("cols" + cols);
             UserService userService = new UserServiceImpl();
-            ckDao ck = new ckDao();
-            boundDao bo = new boundDao();
-            AddboundService addboundService = new AddboundServiceImpl();
+            warehouseDao warehouseDao = new warehouseDao();
+            boundDao boundDao = new boundDao();
+            AddBoundService addboundService = new AddBoundServiceImpl();
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < cols; j++) {
                     if (moreOutView.table.getValueAt(i, j).equals("") || moreOutView.table.getValueAt(i, j) == null) {
@@ -55,8 +59,8 @@ public class MoreOutHandler implements ActionListener {
                 }
             }
             for (int i = 0; i < rows; i++) {
-                boolean yanzhengid = userService.verifyId((String) moreOutView.table.getValueAt(i, 0), (String) moreOutView.table.getValueAt(i, 1));
-                if (!yanzhengid) {
+                boolean ok = userService.verifyId((String) moreOutView.table.getValueAt(i, 0), (String) moreOutView.table.getValueAt(i, 1));
+                if (!ok) {
                     JOptionPane.showMessageDialog(null, "您输入的信息有误", "出库", 2);
                     return;
                 }
@@ -69,10 +73,10 @@ public class MoreOutHandler implements ActionListener {
             String flag;
             int n = 0;
             for (int i = 0; i < rows; i++) {
-                ck.setId((String) moreOutView.table.getValueAt(i, 0));
-                ck.setInventory((String) moreOutView.table.getValueAt(i, 2));
-                RevisionckService revisionckService = new RevisionckServiceImpl();
-                flag = revisionckService.revisionMoreNumber_out(ck);
+                warehouseDao.setId((String) moreOutView.table.getValueAt(i, 0));
+                warehouseDao.setInventory((String) moreOutView.table.getValueAt(i, 2));
+                RevisionItemService revisionItemService = new RevisionItemServiceImpl();
+                flag = revisionItemService.revisionMoreNumberOut(warehouseDao);
                 if (flag.equals("1")) {
                     n++;
                 } else if (flag.equals("2")) {
@@ -88,19 +92,19 @@ public class MoreOutHandler implements ActionListener {
             }
             if (n == rows) {
                 for (int i = 0; i < rows; i++) {
-                    ck.setId((String) moreOutView.table.getValueAt(i, 0));
-                    ck.setInventory((String) moreOutView.table.getValueAt(i, 2));
-                    RevisionckService revisionckService = new RevisionckServiceImpl();
-                    revisionckService.revisionMoreNumber_outnew(ck);
-                    bo.setDanhao("OUT_MoreBound" + num);
-                    bo.setId((String) moreOutView.table.getValueAt(i, 0));
-                    bo.setNumber((String) moreOutView.table.getValueAt(i, 2));
-                    bo.setBoundtype("出库");
-                    bo.setName(loginView.getUserTxt().getText());
+                    warehouseDao.setId((String) moreOutView.table.getValueAt(i, 0));
+                    warehouseDao.setInventory((String) moreOutView.table.getValueAt(i, 2));
+                    RevisionItemService revisionItemService = new RevisionItemServiceImpl();
+                    revisionItemService.revisionMoreNumberOut1(warehouseDao);
+                    boundDao.setDanhao("OUT_MoreBound" + num);
+                    boundDao.setId((String) moreOutView.table.getValueAt(i, 0));
+                    boundDao.setNumber((String) moreOutView.table.getValueAt(i, 2));
+                    boundDao.setBoundtype("出库");
+                    boundDao.setName(loginView.getUserTxt().getText());
                     Date date = new Date();
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    bo.setTime(formatter.format(date));
-                    addboundService.addbound(bo);
+                    boundDao.setTime(formatter.format(date));
+                    addboundService.addBound(boundDao);
                 }
             }
             JOptionPane.showMessageDialog(null, "出库成功!" + "您的出库编号为" + "OUT_MoreBound" + num, "出库", 1);
@@ -112,7 +116,7 @@ public class MoreOutHandler implements ActionListener {
             }
             moreOutView.tableModel.removeRow(selectedRow);
         } else if (text.equals("查询货物信息")) {
-            List<ckDao> list = ShowDataInformation.getck();
+            List<warehouseDao> list = ShowDataInformation.getck();
             new ShowckView(list);
         } else if (text.equals("报表打印")) {
             new ReportView();

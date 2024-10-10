@@ -7,91 +7,78 @@ import java.awt.*;
 
 public class MainView extends JFrame {
 
-    JFrame jFrame = new JFrame();
-    SpringLayout springLayout = new SpringLayout();
-    JPanel CenterPanel = new JPanel(springLayout);
-    JLabel NamePanel = new JLabel("仓库管理系统中心界面", JLabel.CENTER);
-    JButton InquireBtn = new JButton("查询");
-    JButton InBtn = new JButton("入库");
-    JButton OutBtn = new JButton("出库");
-    JButton ManagerBtn = new JButton("仓库管理");
-    JButton FileBtn = new JButton("人员档案管理");
-    JButton PersonBtn = new JButton("个人中心");
-    JButton LogoutBtn = new JButton("注销");
-    JButton ExitBtn = new JButton("退出");
-    MainHandler mainHandler;
+    private JMenuBar menuBar;
+    private JMenu menuOperations, menuSettings, menuAccount;
+    private JMenuItem inquireItem, inItem, outItem, managerItem, fileItem, personItem, logoutItem, exitItem;
+    private MainHandler mainHandler;
 
     public MainView(LoginView loginView) {
         super("仓库管理系统");
 
         mainHandler = new MainHandler(this, loginView);
         Container contentPane = getContentPane();
-        NamePanel.setFont(new Font("楷体", Font.PLAIN, 100));
-        InquireBtn.setFont(new Font("华文行楷", Font.PLAIN, 30));
-        InBtn.setFont(new Font("华文行楷", Font.PLAIN, 30));
-        OutBtn.setFont(new Font("华文行楷", Font.PLAIN, 30));
-        ManagerBtn.setFont(new Font("华文行楷", Font.PLAIN, 30));
-        FileBtn.setFont(new Font("华文行楷", Font.PLAIN, 30));
-        PersonBtn.setFont(new Font("华文行楷", Font.PLAIN, 30));
-        LogoutBtn.setFont(new Font("华文行楷", Font.PLAIN, 30));
-        ExitBtn.setFont(new Font("华文行楷", Font.PLAIN, 30));
+        contentPane.setLayout(new BorderLayout());
 
+        // 设置菜单栏
+        menuBar = new JMenuBar();
 
-        //spring 布局
-        springLayout.putConstraint(SpringLayout.WEST, InBtn, 30, SpringLayout.EAST, InquireBtn);
-        springLayout.putConstraint(SpringLayout.NORTH, InBtn, 0, SpringLayout.NORTH, InquireBtn);
+        // 操作菜单
+        menuOperations = new JMenu("操作");
+        inquireItem = createMenuItem("查询");
+        inItem = createMenuItem("入库");
+        outItem = createMenuItem("出库");
+        managerItem = createMenuItem("仓库管理");
 
-        springLayout.putConstraint(SpringLayout.WEST, OutBtn, 30, SpringLayout.EAST, InBtn);
-        springLayout.putConstraint(SpringLayout.NORTH, OutBtn, 0, SpringLayout.NORTH, InquireBtn);
+        menuOperations.add(inquireItem);
+        menuOperations.add(inItem);
+        menuOperations.add(outItem);
+        menuOperations.add(managerItem);
 
-        springLayout.putConstraint(SpringLayout.WEST, ManagerBtn, 30, SpringLayout.EAST, OutBtn);
-        springLayout.putConstraint(SpringLayout.NORTH, ManagerBtn, 0, SpringLayout.NORTH, InquireBtn);
+        // 设置菜单
+        menuSettings = new JMenu("设置");
+        fileItem = createMenuItem("人员档案管理");
+        personItem = createMenuItem("个人中心");
 
-        springLayout.putConstraint(SpringLayout.WEST, FileBtn, 30, SpringLayout.EAST, ManagerBtn);
-        springLayout.putConstraint(SpringLayout.NORTH, FileBtn, 0, SpringLayout.NORTH, InquireBtn);
+        menuSettings.add(fileItem);
+        menuSettings.add(personItem);
 
-        springLayout.putConstraint(SpringLayout.WEST, PersonBtn, 30, SpringLayout.EAST, FileBtn);
-        springLayout.putConstraint(SpringLayout.NORTH, FileBtn, 0, SpringLayout.NORTH, InquireBtn);
+        // 账户菜单
+        menuAccount = new JMenu("账户");
+        logoutItem = createMenuItem("注销");
+        exitItem = createMenuItem("退出");
 
-        springLayout.putConstraint(SpringLayout.WEST, PersonBtn, 30, SpringLayout.EAST, FileBtn);
-        springLayout.putConstraint(SpringLayout.NORTH, PersonBtn, 0, SpringLayout.NORTH, InquireBtn);
+        menuAccount.add(logoutItem);
+        menuAccount.add(exitItem);
 
-        springLayout.putConstraint(SpringLayout.WEST, LogoutBtn, 1200, SpringLayout.EAST, InquireBtn);
-        springLayout.putConstraint(SpringLayout.NORTH, LogoutBtn, 570, SpringLayout.SOUTH, InquireBtn);
+        // 添加菜单到菜单栏
+        menuBar.add(menuOperations);
+        menuBar.add(menuSettings);
+        menuBar.add(menuAccount);
 
-        springLayout.putConstraint(SpringLayout.WEST, ExitBtn, 10, SpringLayout.EAST, LogoutBtn);
-        springLayout.putConstraint(SpringLayout.NORTH, ExitBtn, 0, SpringLayout.NORTH, LogoutBtn);
+        // 将菜单栏添加到窗口
+        setJMenuBar(menuBar);
 
+        // 顶部标题
+        JLabel nameLabel = new JLabel("仓库管理系统中心界面", JLabel.CENTER);
+        nameLabel.setFont(new Font("楷体", Font.PLAIN, 60));
+        contentPane.add(nameLabel, BorderLayout.NORTH);
 
-        CenterPanel.add(InquireBtn);
-        CenterPanel.add(InBtn);
-        CenterPanel.add(OutBtn);
-        CenterPanel.add(ManagerBtn);
-        CenterPanel.add(FileBtn);
-        CenterPanel.add(PersonBtn);
-        CenterPanel.add(LogoutBtn);
-        CenterPanel.add(ExitBtn);
-        InquireBtn.addActionListener(mainHandler);
-        InBtn.addActionListener(mainHandler);
-        OutBtn.addActionListener(mainHandler);
-        ManagerBtn.addActionListener(mainHandler);
-        FileBtn.addActionListener(mainHandler);
-        PersonBtn.addActionListener(mainHandler);
-        LogoutBtn.addActionListener(mainHandler);
-        ExitBtn.addActionListener(mainHandler);
-        JLabel imgLabel = new JLabel();
-        ImageIcon img = new ImageIcon("src/org/example/warehouse/background.jpg");
-        img.setImage(img.getImage().getScaledInstance(2000, 800, Image.SCALE_DEFAULT));
-        imgLabel.setIcon(img);
-        CenterPanel.add(imgLabel);
+        // 背景图片
+        JLabel background = new JLabel(new ImageIcon("src/org/example/warehouse/BG.jpg"));
+        contentPane.add(background, BorderLayout.CENTER);
 
-        contentPane.add(NamePanel, BorderLayout.NORTH);
-        contentPane.add(CenterPanel, BorderLayout.CENTER);
-        setSize(Toolkit.getDefaultToolkit().getScreenSize());
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        // 窗体设置
+        setSize(1200, 800);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setResizable(false);
+        setResizable(true);
         setVisible(true);
+    }
+
+    // 创建菜单项并添加事件监听
+    private JMenuItem createMenuItem(String text) {
+        JMenuItem menuItem = new JMenuItem(text);
+        menuItem.addActionListener(mainHandler);  // 使用与按钮相同的事件处理程序
+        return menuItem;
     }
 }

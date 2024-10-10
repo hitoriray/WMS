@@ -1,6 +1,6 @@
 package org.example.warehouse.handler;
 
-import org.example.warehouse.dao.ckDao;
+import org.example.warehouse.dao.warehouseDao;
 import org.example.warehouse.service.impl.ShowDataInformation;
 import org.example.warehouse.view.Inquire.ShowckView;
 import org.example.warehouse.view.Inquire.SingleckView;
@@ -24,7 +24,7 @@ public class SingleckHandler implements ActionListener {
             JOptionPane.showMessageDialog(null, "请输入货物名称!!!!", "查询", 2);
             return;
         }
-        List<ckDao> list = ShowDataInformation.getckSingle(name);
+        List<warehouseDao> list = ShowDataInformation.getckSingle(name);
         if (list.size() == 0) {
             JOptionPane.showMessageDialog(null, "抱歉，暂无该产品", "查询", 2);
         } else {

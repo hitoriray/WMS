@@ -53,7 +53,6 @@ public class AddPersonHandler extends KeyAdapter implements ActionListener {
                 } else {
                     JOptionPane.showMessageDialog(null, "添加人员重复！", "添加", 2);
                 }
-
             }
         }
     }
@@ -68,5 +67,4 @@ public class AddPersonHandler extends KeyAdapter implements ActionListener {
         }
         return true;
     }
-
 }

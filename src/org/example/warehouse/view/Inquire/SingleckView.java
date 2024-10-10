@@ -6,16 +6,17 @@ import javax.swing.*;
 import java.awt.*;
 
 public class SingleckView extends JFrame {
-    JFrame jFrame=new JFrame("输入");
-    JPanel jPanel =new JPanel(new FlowLayout(FlowLayout.CENTER,20,20));
-    JLabel label=new JLabel("输入名称或关键字：");
-    JTextField Txt=new JTextField();
-    JButton button=new JButton("确认");
+    JFrame jFrame = new JFrame("输入");
+    JPanel jPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 20));
+    JLabel label = new JLabel("输入名称或关键字：");
+    JTextField Txt = new JTextField();
+    JButton button = new JButton("确认");
     SingleckHandler singleckhandler;
-    public SingleckView(){
+
+    public SingleckView() {
         super("查询");
-        singleckhandler= new SingleckHandler(this);
-        Container contentPane =getContentPane();
+        singleckhandler = new SingleckHandler(this);
+        Container contentPane = getContentPane();
         Font font = new Font("宋体", Font.PLAIN, 20);
         Dimension dimension = new Dimension(100, 30);
         label.setFont(font);
@@ -27,16 +28,16 @@ public class SingleckView extends JFrame {
         jPanel.add(button);
 
         contentPane.add(jPanel);
-        setSize(400,200);
+        setSize(400, 200);
         setResizable(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setVisible(true);
 
     }
-    public String getname(){
-        String name=Txt.getText();
-        return name;
+
+    public String getname() {
+        return Txt.getText();
     }
 
     public static void main(String[] args) {

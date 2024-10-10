@@ -1,6 +1,6 @@
 package org.example.warehouse.service.impl;
 
-import org.example.warehouse.dao.ckDao;
+import org.example.warehouse.dao.warehouseDao;
 import org.example.warehouse.utils.JDBCUtil;
 
 import java.sql.Connection;
@@ -11,15 +11,15 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class getDBImpl {
-    public List<ckDao> get() {
+    public List<warehouseDao> get() {
         String sql = "select name,min,max from warehouse";
-        List<ckDao> list = new LinkedList<>();
+        List<warehouseDao> list = new LinkedList<>();
         try {
             Connection conn = JDBCUtil.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                ckDao ck = new ckDao();
+                warehouseDao ck = new warehouseDao();
                 ck.setName(rs.getString("name"));
                 ck.setMax(rs.getString("max"));
                 ck.setMin(rs.getString("min"));

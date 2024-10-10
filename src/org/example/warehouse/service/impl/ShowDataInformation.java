@@ -3,10 +3,9 @@ package org.example.warehouse.service.impl;
 import org.example.warehouse.dao.PermissionDao;
 import org.example.warehouse.dao.UserTotalDao;
 import org.example.warehouse.dao.boundDao;
-import org.example.warehouse.dao.ckDao;
+import org.example.warehouse.dao.warehouseDao;
 import org.example.warehouse.utils.JDBCUtil;
 
-import javax.print.attribute.standard.PresentationDirection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -75,13 +74,13 @@ public class ShowDataInformation {
 
     public String getid() {
         String sql = "select id from warehouse";
-        List<ckDao> list = new LinkedList<>();
+        List<warehouseDao> list = new LinkedList<>();
         try {
             Connection conn = JDBCUtil.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                ckDao ck = new ckDao();
+                warehouseDao ck = new warehouseDao();
                 ck.setId(rs.getString("id"));
                 list.add(ck);
             }
@@ -168,15 +167,15 @@ public class ShowDataInformation {
         return list;
     }
 
-    public static List<ckDao> getck() {
+    public static List<warehouseDao> getck() {
         String sql = "select id,name,type,unit,remark,inventory,min,max from warehouse";
-        List<ckDao> list = new LinkedList<>();
+        List<warehouseDao> list = new LinkedList<>();
         try {
             Connection conn = JDBCUtil.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                ckDao ck = new ckDao();
+                warehouseDao ck = new warehouseDao();
                 ck.setId(rs.getString("id"));
                 ck.setName(rs.getString("name"));
                 ck.setType(rs.getString("type"));
@@ -193,15 +192,15 @@ public class ShowDataInformation {
         return list;
     }
 
-    public static List<ckDao> getckSetup() {
+    public static List<warehouseDao> getckSetup() {
         String sql = "select id,min,max from warehouse";
-        List<ckDao> list = new LinkedList<>();
+        List<warehouseDao> list = new LinkedList<>();
         try {
             Connection conn = JDBCUtil.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                ckDao ck = new ckDao();
+                warehouseDao ck = new warehouseDao();
                 ck.setId(rs.getString("id"));
                 ck.setMin(rs.getString("min"));
                 ck.setMax(rs.getString("max"));
@@ -213,16 +212,16 @@ public class ShowDataInformation {
         return list;
     }
 
-    public static List<ckDao> getckSingle(String s) {
+    public static List<warehouseDao> getckSingle(String s) {
         String sql = "select  id,name,type,unit,remark,inventory,min,max from warehouse";
-        List<ckDao> list = new LinkedList<>();
+        List<warehouseDao> list = new LinkedList<>();
         try {
             Connection conn = JDBCUtil.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 if (rs.getString("id").contains(s) || rs.getString("name").contains(s) || rs.getString("type").contains(s)) {
-                    ckDao ck = new ckDao();
+                    warehouseDao ck = new warehouseDao();
                     ck.setId(rs.getString("id"));
                     ck.setName(rs.getString("name"));
                     ck.setType(rs.getString("type"));

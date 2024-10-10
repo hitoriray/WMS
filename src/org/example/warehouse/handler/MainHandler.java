@@ -29,55 +29,101 @@ public class MainHandler extends KeyAdapter implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        JButton jButton = (JButton) e.getSource();
-        String text = jButton.getText();
+        Object source = e.getSource();  // 获取事件源
+        String text = "";
+
+        if (source instanceof JButton) {
+            // 如果事件源是 JButton
+            JButton jButton = (JButton) source;
+            text = jButton.getText();
+        } else if (source instanceof JMenuItem) {
+            // 如果事件源是 JMenuItem
+            JMenuItem menuItem = (JMenuItem) source;
+            text = menuItem.getText();
+        }
+
         PermissionService permissionService = new PermissionServiceImpl(mainView, loginView);
-        if (text.equals("退出")) {
-            int i = JOptionPane.showConfirmDialog(null, "是否退出", "退出", JOptionPane.OK_CANCEL_OPTION);
-            if (JOptionPane.OK_CANCEL_OPTION == i) {
-                return;
-            } else {
-                System.exit(0);
-            }
-        } else if (text.equals("注销")) {
-            int i = JOptionPane.showConfirmDialog(null, "是否注销", "注销", JOptionPane.OK_CANCEL_OPTION);
-            if (JOptionPane.OK_CANCEL_OPTION == i) {
-                return;
-            }
+
+        switch (text) {
+            case "退出":
+                handleExit();
+                break;
+            case "注销":
+                handleLogout();
+                break;
+            case "查询":
+                handleQuery(permissionService);
+                break;
+            case "入库":
+                handleInbound(permissionService);
+                break;
+            case "出库":
+                handleOutbound(permissionService);
+                break;
+            case "仓库管理":
+                handleManager(permissionService);
+                break;
+            case "人员档案管理":
+                handleFileManagement(permissionService);
+                break;
+            case "个人中心":
+                new PersonView(loginView);
+                break;
+        }
+    }
+
+    private void handleExit() {
+        int i = JOptionPane.showConfirmDialog(null, "是否退出", "退出", JOptionPane.OK_CANCEL_OPTION);
+        if (JOptionPane.OK_OPTION == i) {
+            System.exit(0);
+        }
+    }
+
+    private void handleLogout() {
+        int i = JOptionPane.showConfirmDialog(null, "是否注销", "注销", JOptionPane.OK_CANCEL_OPTION);
+        if (JOptionPane.OK_OPTION == i) {
             new LoginView();
             mainView.dispose();
-        } else if (text.equals("查询")) {
-            if (permissionService.yanzhengInquire(permissionDao) == 1) {
-                new InquireView();
-            } else {
-                JOptionPane.showMessageDialog(null, "抱歉你暂无此权限", "查询", 2);
-            }
-        } else if (text.equals("入库")) {
-            if (permissionService.verifyInbound(permissionDao) == 1) {
-                new InView(loginView);
-            } else {
-                JOptionPane.showMessageDialog(null, "抱歉你暂无此权限", "入库", 2);
-            }
-        } else if (text.equals("出库")) {
-            if (permissionService.verifyOutbound(permissionDao) == 1) {
-                new OutView(loginView);
-            } else {
-                JOptionPane.showMessageDialog(null, "抱歉你暂无此权限", "出库", 2);
-            }
-        } else if (text.equals("仓库管理")) {
-            if (permissionService.verifyManager(permissionDao) == 1) {
-                new ManagerView();
-            } else {
-                JOptionPane.showMessageDialog(null, "抱歉你暂无此权限", "仓库管理", 2);
-            }
-        } else if (text.equals("人员档案管理")) {
-            if (permissionService.verifyFile(permissionDao) == 1) {
-                new FileView(loginView);
-            } else {
-                JOptionPane.showMessageDialog(null, "抱歉你暂无此权限", "人员档案管理", 2);
-            }
-        } else if (text.equals("个人中心")) {
-            new PersonView(loginView);
+        }
+    }
+
+    private void handleQuery(PermissionService permissionService) {
+        if (permissionService.verifyPermission(permissionDao) == 1) {
+            new InquireView();
+        } else {
+            JOptionPane.showMessageDialog(null, "抱歉你暂无此权限", "查询", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    private void handleInbound(PermissionService permissionService) {
+        if (permissionService.verifyInbound(permissionDao) == 1) {
+            new InView(loginView);
+        } else {
+            JOptionPane.showMessageDialog(null, "抱歉你暂无此权限", "入库", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    private void handleOutbound(PermissionService permissionService) {
+        if (permissionService.verifyOutbound(permissionDao) == 1) {
+            new OutView(loginView);
+        } else {
+            JOptionPane.showMessageDialog(null, "抱歉你暂无此权限", "出库", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    private void handleManager(PermissionService permissionService) {
+        if (permissionService.verifyManager(permissionDao) == 1) {
+            new ManagerView();
+        } else {
+            JOptionPane.showMessageDialog(null, "抱歉你暂无此权限", "仓库管理", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    private void handleFileManagement(PermissionService permissionService) {
+        if (permissionService.verifyFile(permissionDao) == 1) {
+            new FileView(loginView);
+        } else {
+            JOptionPane.showMessageDialog(null, "抱歉你暂无此权限", "人员档案管理", JOptionPane.WARNING_MESSAGE);
         }
     }
 }

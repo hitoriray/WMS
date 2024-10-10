@@ -6,7 +6,7 @@ import org.example.warehouse.view.LoginView;
 import javax.swing.*;
 import java.awt.*;
 
-public class    PersonView extends JFrame {
+public class PersonView extends JFrame {
     JPanel jPanel = new JPanel(new GridBagLayout());
 
     JLabel IDnumberLabel = new JLabel("身份证号：");

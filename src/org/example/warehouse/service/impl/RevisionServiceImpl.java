@@ -1,17 +1,16 @@
 package org.example.warehouse.service.impl;
 
 import org.example.warehouse.dao.PermissionDao;
-import org.example.warehouse.service.ReviosionPermissionService;
+import org.example.warehouse.service.RevisionPermissionService;
 import org.example.warehouse.utils.JDBCUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class RevisionServiceImpl implements ReviosionPermissionService {
+public class RevisionServiceImpl implements RevisionPermissionService {
     @Override
-    public boolean ReviosionPermission(PermissionDao permissionDao) {
+    public boolean RevisionPermission(PermissionDao permissionDao) {
         String sql = "update permissions set inquire=?,inbound=?,outbound=?,manager=?,file=? where name=?";
         try {
             Connection conn = JDBCUtil.getConnection();

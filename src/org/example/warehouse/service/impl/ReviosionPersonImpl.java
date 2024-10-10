@@ -13,7 +13,7 @@ import java.sql.SQLException;
 public class ReviosionPersonImpl implements RevisionService {
 
     @Override
-    public boolean yangzhenRevision(UserTotalDao userTotalDao) {
+    public boolean verifyRevision(UserTotalDao userTotalDao) {
         String sql = "update userinfo set IDnumber=?,date=?,gender=?,origin=?,address=?,type=?,phone=? where name=?";
         try {
             Connection conn = JDBCUtil.getConnection();
@@ -34,13 +34,13 @@ public class ReviosionPersonImpl implements RevisionService {
     }
 
     @Override
-    public void modifyPwd(String oldpwd, String newpwd) {
+    public void modifyPwd(String oldPwd, String newPwd) {
         String sql = "update users set pwd=? where pwd=?";
         try {
             Connection conn = JDBCUtil.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, newpwd);
-            ps.setString(2, oldpwd);
+            ps.setString(1, newPwd);
+            ps.setString(2, oldPwd);
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);

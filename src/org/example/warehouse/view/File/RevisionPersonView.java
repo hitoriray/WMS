@@ -10,7 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class RevisionPersonView extends JFrame {
-    JPanel jPanel =new JPanel(new FlowLayout(FlowLayout.CENTER,10,20));
+    JPanel jPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 20));
     JLabel NameLabel = new JLabel("姓名：");
     JTextField NameTxt = new JTextField();
     JLabel IDnumberLabel = new JLabel("身份证号：");
@@ -26,6 +26,7 @@ public class RevisionPersonView extends JFrame {
         GenderJB.addItem(strArray1[0]);
         GenderJB.addItem(strArray1[1]);
     }
+
     JLabel OriginLabel = new JLabel("籍贯：");
     JTextField OriginTxt = new JTextField();
     JLabel AddressLabel = new JLabel("家庭住址：");
@@ -34,6 +35,7 @@ public class RevisionPersonView extends JFrame {
     JLabel TypeLabel = new JLabel("类型：");
     JComboBox TypeJB = new JComboBox();
     String[] strArray2 = {"操作员", "管理员"};
+
     {
         TypeJB.addItem(strArray2[0]);
         TypeJB.addItem(strArray2[1]);
@@ -45,15 +47,16 @@ public class RevisionPersonView extends JFrame {
 
     JButton RevisionBtn = new JButton("修改");
     RevisionPersonHandler revisionPersonHandler;
-    public RevisionPersonView(LoginView loginView){
+
+    public RevisionPersonView(LoginView loginView) {
         super("修改人员信息");
-        revisionPersonHandler =new RevisionPersonHandler(this);
-        Container contentPane=getContentPane();
+        revisionPersonHandler = new RevisionPersonHandler(this);
+        Container contentPane = getContentPane();
         Font font = new Font("宋体", Font.PLAIN, 20);
         Dimension dimension = new Dimension(150, 20);
         IDnumberLabel.setForeground(Color.RED);
         String name = loginView.getUserTxt().getText();
-        UserService userService =new UserServiceImpl();
+        UserService userService = new UserServiceImpl();
         String s = userService.selectID(name);
         IDnumberTxt.setText(s);
         NameLabel.setFont(font);
@@ -92,15 +95,16 @@ public class RevisionPersonView extends JFrame {
         IDnumberTxt.setEnabled(false);
         RevisionBtn.addActionListener(revisionPersonHandler);
         contentPane.add(jPanel);
-        setSize(300,500);
+        setSize(300, 500);
         setResizable(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setVisible(true);
 
     }
-    public UserTotalDao GetUser(){
-        UserTotalDao userTotalDao =new UserTotalDao();
+
+    public UserTotalDao GetUser() {
+        UserTotalDao userTotalDao = new UserTotalDao();
         userTotalDao.setName(NameTxt.getText());
         userTotalDao.setIDnumber(IDnumberTxt.getText());
         userTotalDao.setDate(DataTxt.getText());

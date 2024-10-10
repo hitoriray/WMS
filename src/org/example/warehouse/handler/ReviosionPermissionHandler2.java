@@ -1,7 +1,7 @@
 package org.example.warehouse.handler;
 
 import org.example.warehouse.dao.PermissionDao;
-import org.example.warehouse.service.ReviosionPermissionService;
+import org.example.warehouse.service.RevisionPermissionService;
 import org.example.warehouse.service.impl.RevisionServiceImpl;
 import org.example.warehouse.service.impl.ShowDataInformation;
 import org.example.warehouse.view.File.Permission.RevisionPermissionView;
@@ -23,9 +23,9 @@ public class ReviosionPermissionHandler2 implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        ReviosionPermissionService reviosionPermissionService = new RevisionServiceImpl();
+        RevisionPermissionService revisionPermissionService = new RevisionServiceImpl();
         PermissionDao permissionDao = revisionPermissionView.GetPermission();
-        boolean b = reviosionPermissionService.ReviosionPermission(permissionDao);
+        boolean b = revisionPermissionService.RevisionPermission(permissionDao);
         if (b) {
             JOptionPane.showMessageDialog(null, "修改成功", "修改", 1);
             List<PermissionDao> list = ShowDataInformation.getPermissionInformation();

@@ -1,12 +1,12 @@
 package org.example.warehouse.handler.inHandler;
 
 import org.example.warehouse.dao.boundDao;
-import org.example.warehouse.dao.ckDao;
-import org.example.warehouse.service.AddboundService;
-import org.example.warehouse.service.RevisionckService;
+import org.example.warehouse.dao.warehouseDao;
+import org.example.warehouse.service.AddBoundService;
+import org.example.warehouse.service.RevisionItemService;
 import org.example.warehouse.service.UserService;
-import org.example.warehouse.service.impl.AddboundServiceImpl;
-import org.example.warehouse.service.impl.RevisionckServiceImpl;
+import org.example.warehouse.service.impl.AddBoundServiceImpl;
+import org.example.warehouse.service.impl.RevisionItemServiceImpl;
 import org.example.warehouse.service.impl.ShowDataInformation;
 import org.example.warehouse.service.impl.UserServiceImpl;
 import org.example.warehouse.view.Inquire.ShowckView;
@@ -50,9 +50,9 @@ public class MoreInHandler implements ActionListener {
             System.out.println("rows" + rows);
             System.out.println("cols" + cols);
             UserService userService = new UserServiceImpl();
-            ckDao ck = new ckDao();
+            warehouseDao ck = new warehouseDao();
             boundDao bo = new boundDao();
-            AddboundService addboundService = new AddboundServiceImpl();
+            AddBoundService addboundService = new AddBoundServiceImpl();
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < cols; j++) {
                     if (moreInView.table.getValueAt(i, j).equals("") || moreInView.table.getValueAt(i, j) == null) {
@@ -76,8 +76,8 @@ public class MoreInHandler implements ActionListener {
             for (int i = 0; i < rows; i++) {
                 ck.setId((String) moreInView.table.getValueAt(i, 0));
                 ck.setInventory((String) moreInView.table.getValueAt(i, 2));
-                RevisionckService revisionckService = new RevisionckServiceImpl();
-                revisionckService.revisionMoreNumber(ck);
+                RevisionItemService revisionItemService = new RevisionItemServiceImpl();
+                revisionItemService.revisionMoreNumber(ck);
                 bo.setDanhao("IN_MoreBound" + num);
                 bo.setId((String) moreInView.table.getValueAt(i, 0));
                 bo.setNumber((String) moreInView.table.getValueAt(i, 2));
@@ -86,7 +86,7 @@ public class MoreInHandler implements ActionListener {
                 Date date = new Date();
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 bo.setTime(formatter.format(date));
-                addboundService.addbound(bo);
+                addboundService.addBound(bo);
             }
             JOptionPane.showMessageDialog(null, "入库成功!" + "您的入库编号为" + "IN_MoreBound" + num, "入库", 1);
         } else if (text.equals("删除行")) {
@@ -97,7 +97,7 @@ public class MoreInHandler implements ActionListener {
             }
             moreInView.tableModel.removeRow(selectedRow);
         } else if (text.equals("查询货物信息")) {
-            List<ckDao> list = ShowDataInformation.getck();
+            List<warehouseDao> list = ShowDataInformation.getck();
             new ShowckView(list);
         } else if (text.equals("报表打印")) {
             new ReportView();

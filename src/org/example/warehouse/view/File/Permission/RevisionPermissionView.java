@@ -6,8 +6,8 @@ import org.example.warehouse.handler.ReviosionPermissionHandler2;
 import javax.swing.*;
 import java.awt.*;
 
-public class RevisionPermissionView  extends  JFrame{
-    JPanel jPanel =new JPanel(new FlowLayout(FlowLayout.CENTER,55,50));
+public class RevisionPermissionView extends JFrame {
+    JPanel jPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 55, 50));
     JLabel NameLabel = new JLabel("姓名：");
     JTextField NameTxt = new JTextField();
     JLabel IDLabel = new JLabel("身份证号：");
@@ -21,29 +21,37 @@ public class RevisionPermissionView  extends  JFrame{
         inquireJB.addItem(strArray[1]);
 
     }
+
     JLabel inLabel = new JLabel("入库权限:");
     JComboBox inJB = new JComboBox();
+
     {
         inJB.addItem(strArray[0]);
         inJB.addItem(strArray[1]);
 
     }
+
     JLabel outLable = new JLabel("出库权限:");
     JComboBox outJB = new JComboBox();
+
     {
         outJB.addItem(strArray[0]);
         outJB.addItem(strArray[1]);
 
     }
+
     JLabel managerLabel = new JLabel("仓库管理权限:");
     JComboBox managerJB = new JComboBox();
+
     {
         managerJB.addItem(strArray[0]);
         managerJB.addItem(strArray[1]);
 
     }
+
     JLabel fileLabel = new JLabel("人员档案管理权限:");
     JComboBox fileJB = new JComboBox();
+
     {
         fileJB.addItem(strArray[0]);
         fileJB.addItem(strArray[1]);
@@ -52,10 +60,11 @@ public class RevisionPermissionView  extends  JFrame{
 
     JButton RevisionBtn = new JButton("修 改");
     ReviosionPermissionHandler2 reviosionPermissionHandler2;
-    public RevisionPermissionView(String name,String IDnumber, ShowPermission showPermission){
+
+    public RevisionPermissionView(String name, String IDnumber, ShowPermission showPermission) {
         super("修改");
-        reviosionPermissionHandler2 =new ReviosionPermissionHandler2(this,showPermission);
-        Container contentPane=getContentPane();
+        reviosionPermissionHandler2 = new ReviosionPermissionHandler2(this, showPermission);
+        Container contentPane = getContentPane();
         Font font = new Font("宋体", Font.PLAIN, 25);
         Dimension dimension = new Dimension(120, 25);
         NameLabel.setFont(font);
@@ -70,7 +79,7 @@ public class RevisionPermissionView  extends  JFrame{
         outLable.setFont(font);
         managerLabel.setFont(font);
         fileLabel.setFont(font);
-        RevisionBtn.setFont(new Font("宋体",Font.PLAIN,30));
+        RevisionBtn.setFont(new Font("宋体", Font.PLAIN, 30));
         NameTxt.setText(name);
         IDTxt.setText(IDnumber);
         jPanel.add(NameLabel);
@@ -90,18 +99,19 @@ public class RevisionPermissionView  extends  JFrame{
         jPanel.add(RevisionBtn);
         RevisionBtn.addActionListener(reviosionPermissionHandler2);
         contentPane.add(jPanel);
-        setSize(800,500);
+        setSize(800, 500);
         setResizable(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setVisible(true);
     }
-    public PermissionDao GetPermission(){
-        PermissionDao permissionDao =new PermissionDao();
+
+    public PermissionDao GetPermission() {
+        PermissionDao permissionDao = new PermissionDao();
         permissionDao.setName(NameTxt.getText());
         permissionDao.setInquire(inquireJB.getSelectedItem().toString());
         permissionDao.setInbound(inJB.getSelectedItem().toString());
-        permissionDao.setOutbound( outJB.getSelectedItem().toString());
+        permissionDao.setOutbound(outJB.getSelectedItem().toString());
         permissionDao.setManager(managerJB.getSelectedItem().toString());
         permissionDao.setFile(fileJB.getSelectedItem().toString());
         return permissionDao;

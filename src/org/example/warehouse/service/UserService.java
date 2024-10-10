@@ -7,7 +7,7 @@ public interface UserService {
 
     boolean verifyIDnumberByName(String IDnumber, String name);
 
-    boolean verifyPwd(String oldpwd);
+    boolean verifyPwd(String pwd);
 
     boolean verifyId(String id, String type);
 

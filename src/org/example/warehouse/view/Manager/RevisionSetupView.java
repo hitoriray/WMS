@@ -1,6 +1,6 @@
 package org.example.warehouse.view.Manager;
 
-import org.example.warehouse.dao.ckDao;
+import org.example.warehouse.dao.warehouseDao;
 import org.example.warehouse.handler.ckHandler.SetupHandler;
 import org.example.warehouse.service.impl.getDBImpl;
 
@@ -9,46 +9,47 @@ import java.awt.*;
 import java.util.List;
 
 public class RevisionSetupView extends JFrame {
-    JFrame jFrame=new JFrame("设置");
-    JPanel jPanel =new JPanel(new FlowLayout(FlowLayout.CENTER,30,25));
-    JLabel label=new JLabel("货物：");
+    JFrame jFrame = new JFrame("设置");
+    JPanel jPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 25));
+    JLabel label = new JLabel("货物：");
     JComboBox labelJB = new JComboBox();
-    JLabel max=new JLabel("最大值：");
+    JLabel max = new JLabel("最大值：");
     JComboBox maxJB = new JComboBox();
 
-    JLabel min=new JLabel("最小值：");
+    JLabel min = new JLabel("最小值：");
     JComboBox minJB = new JComboBox();
-    JButton button=new JButton("确认");
+    JButton button = new JButton("确认");
     SetupHandler setupHandler;
-    public RevisionSetupView(){
+
+    public RevisionSetupView() {
         super("修改设置");
-        setupHandler= new SetupHandler(this);
-        Container contentPane =getContentPane();
+        setupHandler = new SetupHandler(this);
+        Container contentPane = getContentPane();
 
         getDBImpl getDB = new getDBImpl();
-        List<ckDao> list = getDB.get();
+        List<warehouseDao> list = getDB.get();
         {
-         for(int t=0;t< list.size();t++){
-             ckDao ck = list.get(t);
+            for (int t = 0; t < list.size(); t++) {
+                warehouseDao ck = list.get(t);
 
-             labelJB.addItem(ck.getName());
-         }
+                labelJB.addItem(ck.getName());
+            }
 
         }
-        JLabel max=new JLabel("最大值：");
+        JLabel max = new JLabel("最大值：");
 
         {
-            for(int t=0;t< list.size();t++) {
-                ckDao ck = list.get(t);
+            for (int t = 0; t < list.size(); t++) {
+                warehouseDao ck = list.get(t);
                 maxJB.addItem(ck.getMax());
             }
 
         }
-        JLabel min=new JLabel("最小值：");
+        JLabel min = new JLabel("最小值：");
 
         {
-            for(int t=0;t< list.size();t++) {
-                ckDao ck = list.get(t);
+            for (int t = 0; t < list.size(); t++) {
+                warehouseDao ck = list.get(t);
 
                 minJB.addItem(ck.getMin());
             }
@@ -72,16 +73,17 @@ public class RevisionSetupView extends JFrame {
         jPanel.add(button);
 
         contentPane.add(jPanel);
-        setSize(300,400);
+        setSize(300, 400);
         setResizable(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setVisible(true);
 
     }
-    public ckDao getSetup(){
-        ckDao ck=new ckDao();
-        String name=label.getText();
+
+    public warehouseDao getSetup() {
+        warehouseDao ck = new warehouseDao();
+        String name = label.getText();
         ck.setName(labelJB.getSelectedItem().toString());
         ck.setMin(minJB.getSelectedItem().toString());
         ck.setMax(maxJB.getSelectedItem().toString());

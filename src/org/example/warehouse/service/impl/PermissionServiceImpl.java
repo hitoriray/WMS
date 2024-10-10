@@ -22,7 +22,7 @@ public class PermissionServiceImpl implements PermissionService {
         this.username = loginView.getUserTxt().getText();
     }
 
-    public int yanzhengInquire(PermissionDao permissionDao) {
+    public int verifyPermission(PermissionDao permissionDao) {
         String sql = "select inquire from permissions where name=?";
         try {
             Connection conn = JDBCUtil.getConnection();

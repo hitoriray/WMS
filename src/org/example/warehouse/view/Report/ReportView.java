@@ -1,10 +1,12 @@
 package org.example.warehouse.view.Report;
+
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.example.warehouse.handler.ReportHandler;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.FileOutputStream;
@@ -13,29 +15,29 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class ReportView extends JFrame {
-    JPanel jPanel =new JPanel(new FlowLayout(FlowLayout.CENTER,80,50));
-    JLabel label=new JLabel("出入库类型：");
+    JPanel jPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 80, 50));
+    JLabel label = new JLabel("出入库类型：");
     JComboBox labelJB = new JComboBox();
     JLabel NameLabel = new JLabel("请输入打印单号：");
     JTextField NameTxt = new JTextField();
     JButton SureBtn = new JButton("确认");
     ReportHandler reportHandler;
 
-    public ReportView(){
+    public ReportView() {
         super("打印单号");
-        reportHandler=new ReportHandler(this);
-        Container contentPane=getContentPane();
+        reportHandler = new ReportHandler(this);
+        Container contentPane = getContentPane();
         Font font = new Font("宋体", Font.PLAIN, 25);
         Dimension dimension = new Dimension(120, 25);
         label.setFont(font);
         NameLabel.setFont(font);
         NameTxt.setPreferredSize(dimension);
         labelJB.setPreferredSize(dimension);
-        SureBtn.setFont(new Font("宋体",Font.PLAIN,25));
+        SureBtn.setFont(new Font("宋体", Font.PLAIN, 25));
 
 
-                labelJB.addItem("入库");
-                labelJB.addItem("出库");
+        labelJB.addItem("入库");
+        labelJB.addItem("出库");
         jPanel.add(label);
         jPanel.add(labelJB);
         jPanel.add(NameLabel);
@@ -43,7 +45,7 @@ public class ReportView extends JFrame {
         jPanel.add(SureBtn);
         SureBtn.addActionListener(reportHandler);
         contentPane.add(jPanel);
-        setSize(600,400);
+        setSize(600, 400);
         setResizable(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);

@@ -12,11 +12,12 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 public class FileView extends JFrame {
-    JFrame jFrame =new JFrame();
-    private  LoginView loginView;
+    JFrame jFrame = new JFrame();
+    private LoginView loginView;
+
     public FileView(LoginView loginView) {
         super("人员档案管理");
-        this.loginView=loginView;
+        this.loginView = loginView;
 
         setTitle("人员档案管理");
         JMenuBar menuBar = new JMenuBar();
@@ -56,15 +57,14 @@ public class FileView extends JFrame {
         public void actionPerformed(ActionEvent e) {
             JMenuItem menuItem = (JMenuItem) e.getSource();
             String text = menuItem.getText();
-            if(text.equals("查询（删除）人员信息")){
+            if (text.equals("查询（删除）人员信息")) {
                 List<UserTotalDao> list = ShowDataInformation.getInformation();
                 new InquirePersonView(list);
-            }else if(text.equals("查看（修改）人员权限")) {
+            } else if (text.equals("查看（修改）人员权限")) {
                 new PermissionView();
-            }else if(text.equals("添加人员信息")) {
+            } else if (text.equals("添加人员信息")) {
                 new AddPersonView();
-            }
-            else if(text.equals("修改人员信息")) {
+            } else if (text.equals("修改人员信息")) {
                 new RevisionPersonView(loginView);
             }
 

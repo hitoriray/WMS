@@ -3,7 +3,7 @@ package org.example.warehouse.service;
 import org.example.warehouse.dao.UserTotalDao;
 
 public interface RevisionService {
-    boolean yangzhenRevision(UserTotalDao userTotalDao);
+    boolean verifyRevision(UserTotalDao userTotalDao);
 
-    void modifyPwd(String oldpwd, String pwd);
+    void modifyPwd(String oldPwd, String newPwd);
 }
