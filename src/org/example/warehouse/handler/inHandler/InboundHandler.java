@@ -1,7 +1,6 @@
 package org.example.warehouse.handler.inHandler;
 
 import org.example.warehouse.view.LoginView;
-import org.example.warehouse.view.in.InView;
 import org.example.warehouse.view.in.MoreInView;
 import org.example.warehouse.view.in.SimpleInView;
 
@@ -10,18 +9,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class InboundHandler implements ActionListener {
-    private InView inView;
     private LoginView loginView;
 
-    public InboundHandler(InView inView, LoginView loginView) {
+    // 构造函数不再需要 InView 参数
+    public InboundHandler(LoginView loginView) {
         this.loginView = loginView;
-        this.inView = inView;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        JButton jButton = (JButton) e.getSource();
-        String text = jButton.getText();
+        // 获取事件的源，应该是 JMenuItem
+        JMenuItem menuItem = (JMenuItem) e.getSource();
+        String text = menuItem.getText(); // 获取菜单项的文本
+
+        // 根据菜单项的文本执行相应的操作
         if (text.equals("简单物料入库")) {
             new SimpleInView(loginView);
         } else if (text.equals("多物料入库")) {

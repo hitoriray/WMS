@@ -16,7 +16,7 @@ public class InView extends JFrame {
     public InView(LoginView loginView) {
         super("入库");
 
-        inBoundHandler = new InboundHandler(this, loginView);
+        inBoundHandler = new InboundHandler(loginView);
         Container contentPane = getContentPane();
         SimpleBtn.setFont(new Font("华文行楷", Font.PLAIN, 20));
         moreBtn.setFont(new Font("华文行楷", Font.PLAIN, 20));

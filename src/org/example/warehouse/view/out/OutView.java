@@ -16,7 +16,7 @@ public class OutView extends JFrame {
     public OutView(LoginView loginView) {
         super("出库");
 
-        outboundHandler = new OutboundHandler(this, loginView);
+        outboundHandler = new OutboundHandler(loginView);
         Container contentPane = getContentPane();
         SimpleBtn.setFont(new Font("华文行楷", Font.PLAIN, 20));
         moreBtn.setFont(new Font("华文行楷", Font.PLAIN, 20));

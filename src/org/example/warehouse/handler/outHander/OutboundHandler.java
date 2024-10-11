@@ -10,18 +10,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class OutboundHandler implements ActionListener {
-    private OutView outView;
     public LoginView loginView;
 
-    public OutboundHandler(OutView outView, LoginView loginView) {
-        this.outView = outView;
+    public OutboundHandler(LoginView loginView) {
         this.loginView = loginView;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        JButton jButton = (JButton) e.getSource();
-        String text = jButton.getText();
+        // 获取事件的源，应该是 JMenuItem
+        JMenuItem menuItem = (JMenuItem) e.getSource();
+        String text = menuItem.getText(); // 获取菜单项的文本
         if (text.equals("简单物料出库")) {
             new SimpleOutView(loginView);
         } else if (text.equals("多物料出库")) {

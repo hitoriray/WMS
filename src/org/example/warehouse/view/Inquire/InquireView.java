@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 public class InquireView extends JFrame {
-    JFrame jFrame = new JFrame();
+//    JFrame jFrame = new JFrame();
     JMenuBar menuBar = new JMenuBar();
 
     public InquireView() {

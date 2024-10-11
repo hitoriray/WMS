@@ -69,11 +69,9 @@ public class ManagerView extends JFrame {
             } else if (text.equals("查看设置")) {
                 List<warehouseDao> list = ShowDataInformation.getckSetup();
                 new LookSetupView(list);
-
             } else if (text.equals("修改设置")) {
                 new RevisionSetupView();
             }
-
         }
     }
 
