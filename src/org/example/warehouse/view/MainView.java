@@ -1,10 +1,17 @@
 package org.example.warehouse.view;
 
+import org.example.warehouse.dao.PermissionDao;
+import org.example.warehouse.dao.UserTotalDao;
 import org.example.warehouse.handler.MainHandler;
 import org.example.warehouse.dao.boundDao;
 import org.example.warehouse.dao.warehouseDao;
 import org.example.warehouse.handler.inHandler.InboundHandler;
 import org.example.warehouse.handler.outHander.OutboundHandler;
+import org.example.warehouse.view.File.AddPersonView;
+import org.example.warehouse.view.File.InquirePersonView;
+import org.example.warehouse.view.File.Permission.RevisionPermissionView;
+import org.example.warehouse.view.File.Permission.ShowPermission;
+import org.example.warehouse.view.File.RevisionPersonView;
 import org.example.warehouse.view.Manager.*;
 import org.example.warehouse.service.impl.ShowDataInformation;
 import org.example.warehouse.view.Inquire.*;
@@ -19,8 +26,8 @@ public class MainView extends JFrame {
 
     private JMenuBar menuBar;
     private JMenu menuOperations, menuSettings, menuAccount;
-    private JMenuItem fileItem, personItem, logoutItem, exitItem;
-    private JMenu menuInquire, menuInbound, menuOutbound, menuManager;  // 添加仓库管理菜单
+    private JMenuItem personItem, logoutItem, exitItem;
+    private JMenu menuInquire, menuInbound, menuOutbound, menuManager, menuPersonManager;  // 添加仓库管理菜单
     private MainHandler mainHandler;
     private InboundHandler inboundHandler;
     private OutboundHandler outboundHandler;
@@ -104,6 +111,8 @@ public class MainView extends JFrame {
         JMenuItem modifyItem = new JMenuItem("修改货物");
         JMenuItem deleteItem = new JMenuItem("查询（删除）货物");
 
+
+
         // 为货物信息管理子菜单项添加事件监听器
         addItem.addActionListener(e -> new AddItemView());
         modifyItem.addActionListener(e -> new RevisionItemView());
@@ -142,10 +151,40 @@ public class MainView extends JFrame {
 
         // 设置菜单
         menuSettings = new JMenu("设置");
-        fileItem = createMenuItem("人员档案管理");
+//        fileItem = createMenuItem("人员档案管理");
+
+        menuPersonManager = new JMenu("人员档案管理");
+
+        JMenu personInformationManagementMenu = new JMenu("人员信息管理");
+        JMenuItem inquireDeleteItem = new JMenuItem("查询（删除）人员信息");
+        JMenuItem addPersonInfoItem = new JMenuItem("添加人员信息");
+        JMenuItem revisionPersonInfoItem = new JMenuItem("修改人员信息");
+
+        inquireDeleteItem.addActionListener(e -> {
+            List<UserTotalDao> list = ShowDataInformation.getInformation();
+            new InquirePersonView(list);
+        });
+        addPersonInfoItem.addActionListener(e->new AddPersonView());
+        revisionPersonInfoItem.addActionListener(e->new RevisionPersonView(loginView));
+
+        personInformationManagementMenu.add(inquireDeleteItem);
+        personInformationManagementMenu.add(addPersonInfoItem);
+        personInformationManagementMenu.add(revisionPersonInfoItem);
+
+        JMenu personPermissionManagementMenu = new JMenu("人员权限管理");
+        JMenuItem checkRevisionPermissionItem = new JMenuItem("查看（修改）人员权限");
+        checkRevisionPermissionItem.addActionListener(e-> {
+            List<PermissionDao> list = ShowDataInformation.getPermissionInformation();
+            new ShowPermission(list);
+        });
+        personPermissionManagementMenu.add(checkRevisionPermissionItem);
+
+        menuPersonManager.add(personInformationManagementMenu);
+        menuPersonManager.add(personPermissionManagementMenu);
+
         personItem = createMenuItem("个人中心");
 
-        menuSettings.add(fileItem);
+        menuSettings.add(menuPersonManager);
         menuSettings.add(personItem);
 
         // 账户菜单
@@ -174,8 +213,7 @@ public class MainView extends JFrame {
         contentPane.add(background, BorderLayout.CENTER);
 
         // 窗体设置
-        setSize(Toolkit.getDefaultToolkit().getScreenSize());
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setSize(1200, 800);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(true);
@@ -185,7 +223,7 @@ public class MainView extends JFrame {
     // 创建菜单项并添加事件监听
     private JMenuItem createMenuItem(String text) {
         JMenuItem menuItem = new JMenuItem(text);
-        menuItem.setFont(new Font("华文行楷", Font.PLAIN, 18));
+//        menuItem.setFont(new Font("华文行楷", Font.PLAIN, 18));
         menuItem.addActionListener(mainHandler);  // 使用与按钮相同的事件处理程序
         return menuItem;
     }

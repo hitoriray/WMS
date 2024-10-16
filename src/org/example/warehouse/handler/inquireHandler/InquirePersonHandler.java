@@ -33,8 +33,6 @@ public class InquirePersonHandler implements ActionListener {
             } else {
                 new InquirePersonSingleView(list);
             }
-        } else if (text.equals("删除")) {
-            // TODO
         }
     }
 }

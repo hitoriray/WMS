@@ -1,15 +1,7 @@
 package org.example.warehouse.handler;
 
-import org.example.warehouse.dao.PermissionDao;
-import org.example.warehouse.service.PermissionService;
-import org.example.warehouse.service.impl.PermissionServiceImpl;
 import org.example.warehouse.view.*;
-import org.example.warehouse.view.File.FileView;
-import org.example.warehouse.view.Inquire.InquireView;
-import org.example.warehouse.view.Manager.ManagerView;
 import org.example.warehouse.view.Person.PersonView;
-import org.example.warehouse.view.in.InView;
-import org.example.warehouse.view.out.OutView;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -24,8 +16,6 @@ public class MainHandler extends KeyAdapter implements ActionListener {
         this.mainView = mainView;
         this.loginView = loginView;
     }
-
-    PermissionDao permissionDao = new PermissionDao();
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -42,29 +32,13 @@ public class MainHandler extends KeyAdapter implements ActionListener {
             text = menuItem.getText();
         }
 
-        PermissionService permissionService = new PermissionServiceImpl(mainView, loginView);
-
+        System.out.println("text:"+text);
         switch (text) {
             case "退出":
                 handleExit();
                 break;
             case "注销":
                 handleLogout();
-                break;
-            case "查询":
-                handleQuery(permissionService);
-                break;
-            case "入库":
-                handleInbound(permissionService);
-                break;
-            case "出库":
-                handleOutbound(permissionService);
-                break;
-            case "仓库管理":
-                handleManager(permissionService);
-                break;
-            case "人员档案管理":
-                handleFileManagement(permissionService);
                 break;
             case "个人中心":
                 new PersonView(loginView);
@@ -87,43 +61,4 @@ public class MainHandler extends KeyAdapter implements ActionListener {
         }
     }
 
-    private void handleQuery(PermissionService permissionService) {
-        if (permissionService.verifyPermission(permissionDao) == 1) {
-            new InquireView();
-        } else {
-            JOptionPane.showMessageDialog(null, "抱歉你暂无此权限", "查询", JOptionPane.WARNING_MESSAGE);
-        }
-    }
-
-    private void handleInbound(PermissionService permissionService) {
-        if (permissionService.verifyInbound(permissionDao) == 1) {
-            new InView(loginView);
-        } else {
-            JOptionPane.showMessageDialog(null, "抱歉你暂无此权限", "入库", JOptionPane.WARNING_MESSAGE);
-        }
-    }
-
-    private void handleOutbound(PermissionService permissionService) {
-        if (permissionService.verifyOutbound(permissionDao) == 1) {
-            new OutView(loginView);
-        } else {
-            JOptionPane.showMessageDialog(null, "抱歉你暂无此权限", "出库", JOptionPane.WARNING_MESSAGE);
-        }
-    }
-
-    private void handleManager(PermissionService permissionService) {
-        if (permissionService.verifyManager(permissionDao) == 1) {
-            new ManagerView();
-        } else {
-            JOptionPane.showMessageDialog(null, "抱歉你暂无此权限", "仓库管理", JOptionPane.WARNING_MESSAGE);
-        }
-    }
-
-    private void handleFileManagement(PermissionService permissionService) {
-        if (permissionService.verifyFile(permissionDao) == 1) {
-            new FileView(loginView);
-        } else {
-            JOptionPane.showMessageDialog(null, "抱歉你暂无此权限", "人员档案管理", JOptionPane.WARNING_MESSAGE);
-        }
-    }
 }

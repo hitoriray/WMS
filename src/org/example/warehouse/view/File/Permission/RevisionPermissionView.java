@@ -19,7 +19,6 @@ public class RevisionPermissionView extends JFrame {
     {
         inquireJB.addItem(strArray[0]);
         inquireJB.addItem(strArray[1]);
-
     }
 
     JLabel inLabel = new JLabel("入库权限:");
@@ -109,6 +108,7 @@ public class RevisionPermissionView extends JFrame {
     public PermissionDao GetPermission() {
         PermissionDao permissionDao = new PermissionDao();
         permissionDao.setName(NameTxt.getText());
+        permissionDao.setIDnumber(IDTxt.getText());
         permissionDao.setInquire(inquireJB.getSelectedItem().toString());
         permissionDao.setInbound(inJB.getSelectedItem().toString());
         permissionDao.setOutbound(outJB.getSelectedItem().toString());

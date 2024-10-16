@@ -64,4 +64,17 @@ public class PermissionDao {
     public void setFile(String file) {
         File = file;
     }
+
+    @Override
+    public String toString() {
+        return "PermissionDao{" +
+                "name='" + name + '\'' +
+                ", IDnumber='" + IDnumber + '\'' +
+                ", Inquire='" + Inquire + '\'' +
+                ", Inbound='" + Inbound + '\'' +
+                ", Outbound='" + Outbound + '\'' +
+                ", Manager='" + Manager + '\'' +
+                ", File='" + File + '\'' +
+                '}';
+    }
 }

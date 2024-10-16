@@ -36,7 +36,6 @@ public class AddPersonView extends JFrame {
     {
         TypeJB.addItem(strArray2[0]);
         TypeJB.addItem(strArray2[1]);
-
     }
 
     JLabel PhoneLabel = new JLabel("联系电话：");

@@ -26,7 +26,7 @@ public class InquirePersonSingleView extends JFrame {
             data[i][5] = userTotalDao.getAddress();
             data[i][6] = userTotalDao.getType();
             data[i][7] = userTotalDao.getPhone();
-        }
+    }
         JTable table = new JTable(data, index);
         JScrollPane scrollPane = new JScrollPane(table);
         table.setEnabled(false);
@@ -38,7 +38,6 @@ public class InquirePersonSingleView extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setVisible(true);
-
     }
 
 }

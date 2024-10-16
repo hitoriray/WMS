@@ -36,8 +36,9 @@ public class ShowPermission extends JFrame {
         // table添加
         String[] index = {"姓名", "身份证号", "查询权限", "入库权限", "出库权限", "仓库管理权限", "人员档案管理权限"};
         Object[][] data = new Object[list.size()][index.length + 1];
-        System.out.println("size:" + list.size());
         for (int i = 0; i < list.size(); i++) {
+            System.out.print("list[" + i + "]: ");
+            System.out.println(list.get(i));
             PermissionDao permissionDao = list.get(i);
             data[i][0] = permissionDao.getName();
             data[i][1] = permissionDao.getIDnumber();

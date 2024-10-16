@@ -152,7 +152,7 @@ public class ShowDataInformation {
                 if (rs.getString("name").contains(name)) {
                     PermissionDao permissionDao = new PermissionDao();
                     permissionDao.setName(rs.getString("name"));
-                    permissionDao.setName(rs.getString("IDnumber"));
+                    permissionDao.setIDnumber(rs.getString("IDnumber"));
                     permissionDao.setInquire(rs.getString("inquire"));
                     permissionDao.setInbound(rs.getString("inbound"));
                     permissionDao.setOutbound(rs.getString("outbound"));

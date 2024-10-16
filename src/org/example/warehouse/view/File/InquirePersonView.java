@@ -18,12 +18,11 @@ public class InquirePersonView extends JFrame {
 
     JButton inBtn = new JButton("查询");
     JLabel delete = new JLabel("                提示：双击可删除");
-    InquirePersonHandler inquirePersonHanlder;
-
+    InquirePersonHandler inquirePersonHandler;
 
     public InquirePersonView(List<UserTotalDao> list) {
         super("人员信息");
-        inquirePersonHanlder = new InquirePersonHandler(this);
+        inquirePersonHandler = new InquirePersonHandler(this);
         JPanel jPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         inTxt.setPreferredSize(new Dimension(150, 30));
 
@@ -33,12 +32,11 @@ public class InquirePersonView extends JFrame {
         jPanel.add(inTxt);
         jPanel.add(inBtn);
         jPanel.add(delete);
-        inBtn.addActionListener(inquirePersonHanlder);
+        inBtn.addActionListener(inquirePersonHandler);
 
         //table添加
         String[] index = {"姓名", "身份证", "出生日期", "性别", "籍贯", "家庭住址", "类型", "联系电话"};
         final Object[][][] data = {new Object[list.size()][index.length]};
-        System.out.println("size:" + list.size());
         for (int i = 0; i < list.size(); i++) {
             UserTotalDao userTotalDao = list.get(i);
             data[0][i][0] = userTotalDao.getName();
@@ -60,13 +58,12 @@ public class InquirePersonView extends JFrame {
                     int col = table.getColumnModel().getColumnIndexAtX(e.getX());
                     int i = JOptionPane.showConfirmDialog(null, "是否删除？", "删除", JOptionPane.OK_CANCEL_OPTION);
                     if (JOptionPane.OK_CANCEL_OPTION == i) {
-
+                        System.out.println("取消删除行：" + selectedRow);
                     } else {
                         tableModel.removeRow(selectedRow);
                         String id = data[0][selectedRow][0].toString();
                         ShowDataInformation.deleteInformation(id);
                         data[0] = removeRow(data[0], selectedRow);
-                        System.out.println("id: " + id);
                     }
                 }
             }
