@@ -2,6 +2,7 @@ package org.example.warehouse.handler;
 
 import org.example.warehouse.view.*;
 import org.example.warehouse.view.Person.PersonView;
+import org.example.warehouse.view.Report.ReportView;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -40,8 +41,13 @@ public class MainHandler extends KeyAdapter implements ActionListener {
             case "注销":
                 handleLogout();
                 break;
-            case "个人中心":
+            case "修改密码":
                 new PersonView(loginView);
+                break;
+            case "打印报表":
+                new ReportView();
+                break;
+            default:
                 break;
         }
     }

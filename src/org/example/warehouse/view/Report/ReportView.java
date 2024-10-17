@@ -17,33 +17,41 @@ import java.time.format.DateTimeFormatter;
 public class ReportView extends JFrame {
     JPanel jPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 80, 50));
     JLabel label = new JLabel("出入库类型：");
-    JComboBox labelJB = new JComboBox();
-    JLabel NameLabel = new JLabel("请输入打印单号：");
-    JTextField NameTxt = new JTextField();
-    JButton SureBtn = new JButton("确认");
+    JComboBox<String> labelJB = new JComboBox<>();
+    JLabel startTimeLabel = new JLabel("开始时间(yyyy-MM-dd)：");
+    JTextField startTimeTxt = new JTextField();
+    JLabel endTimeLabel = new JLabel("结束时间(yyyy-MM-dd)：");
+    JTextField endTimeTxt = new JTextField();
+    JButton sureBtn = new JButton("确认");
     ReportHandler reportHandler;
 
     public ReportView() {
-        super("打印单号");
+        super("打印出入库记录");
         reportHandler = new ReportHandler(this);
         Container contentPane = getContentPane();
         Font font = new Font("宋体", Font.PLAIN, 25);
         Dimension dimension = new Dimension(120, 25);
         label.setFont(font);
-        NameLabel.setFont(font);
-        NameTxt.setPreferredSize(dimension);
+        startTimeLabel.setFont(font);
+        startTimeTxt.setPreferredSize(dimension);
+        endTimeLabel.setFont(font);
+        endTimeTxt.setPreferredSize(dimension);
         labelJB.setPreferredSize(dimension);
-        SureBtn.setFont(new Font("宋体", Font.PLAIN, 25));
+        sureBtn.setFont(new Font("宋体", Font.PLAIN, 25));
 
-
+        // 添加选项
+        labelJB.addItem("所有出入库");
         labelJB.addItem("入库");
         labelJB.addItem("出库");
+
         jPanel.add(label);
         jPanel.add(labelJB);
-        jPanel.add(NameLabel);
-        jPanel.add(NameTxt);
-        jPanel.add(SureBtn);
-        SureBtn.addActionListener(reportHandler);
+        jPanel.add(startTimeLabel);
+        jPanel.add(startTimeTxt);
+        jPanel.add(endTimeLabel);
+        jPanel.add(endTimeTxt);
+        jPanel.add(sureBtn);
+        sureBtn.addActionListener(reportHandler);
         contentPane.add(jPanel);
         setSize(600, 400);
         setResizable(false);
@@ -56,11 +64,15 @@ public class ReportView extends JFrame {
         return labelJB.getSelectedItem().toString();
     }
 
-    public String getNameTxt() {
-        return NameTxt.getText();
+    public String getStartTime() {
+        return startTimeTxt.getText();
     }
 
-    public void OutReport(JTable table, String fileName) throws IOException {
+    public String getEndTime() {
+        return endTimeTxt.getText();
+    }
+
+    public void outReport(JTable table, String fileName) throws IOException {
         // 创建工作簿
         Workbook workbook = new HSSFWorkbook();
 

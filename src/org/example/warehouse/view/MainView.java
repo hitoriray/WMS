@@ -26,7 +26,7 @@ public class MainView extends JFrame {
 
     private JMenuBar menuBar;
     private JMenu menuOperations, menuSettings, menuAccount;
-    private JMenuItem personItem, logoutItem, exitItem;
+    private JMenuItem personItem, logoutItem, exitItem, reportItem;
     private JMenu menuInquire, menuInbound, menuOutbound, menuManager, menuPersonManager;  // 添加仓库管理菜单
     private MainHandler mainHandler;
     private InboundHandler inboundHandler;
@@ -149,6 +149,9 @@ public class MainView extends JFrame {
         // 将仓库管理菜单添加到操作菜单
         menuOperations.add(menuManager);
 
+        reportItem = createMenuItem("打印报表");
+        menuOperations.add(reportItem);
+
         // 设置菜单
         menuSettings = new JMenu("设置");
 //        fileItem = createMenuItem("人员档案管理");
@@ -182,7 +185,7 @@ public class MainView extends JFrame {
         menuPersonManager.add(personInformationManagementMenu);
         menuPersonManager.add(personPermissionManagementMenu);
 
-        personItem = createMenuItem("个人中心");
+        personItem = createMenuItem("修改密码");
 
         menuSettings.add(menuPersonManager);
         menuSettings.add(personItem);
