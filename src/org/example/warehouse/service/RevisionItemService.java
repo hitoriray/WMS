@@ -11,6 +11,8 @@ public interface RevisionItemService {
 
     String revisionNumber1(warehouseDao warehouseDao);
 
+    String revisionInventory(warehouseDao warehouseDao);
+
     void revisionMoreNumber(warehouseDao warehouseDao);
 
     String revisionMoreNumberOut(warehouseDao warehouseDao);

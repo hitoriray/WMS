@@ -1,6 +1,7 @@
 package org.example.warehouse.service.impl;
 
 import org.example.warehouse.dao.UserDao;
+import org.example.warehouse.dao.warehouseDao;
 import org.example.warehouse.service.UserService;
 import org.example.warehouse.utils.JDBCUtil;
 
@@ -8,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class UserServiceImpl implements UserService {
     @Override

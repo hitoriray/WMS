@@ -1,5 +1,15 @@
 package org.example.warehouse.dao;
 
+import com.mysql.jdbc.Connection;
+import org.example.warehouse.service.impl.ShowDataInformation;
+
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class warehouseDao {
     private String id;
     private String name;
@@ -72,5 +82,19 @@ public class warehouseDao {
 
     public void setMax(String max) {
         this.max = max;
+    }
+
+    @Override
+    public String toString() {
+        return "warehouseDao{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", unit='" + unit + '\'' +
+                ", remark='" + remark + '\'' +
+                ", inventory='" + inventory + '\'' +
+                ", min='" + min + '\'' +
+                ", max='" + max + '\'' +
+                '}';
     }
 }

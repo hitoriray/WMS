@@ -213,7 +213,7 @@ public class ShowDataInformation {
     }
 
     public static List<warehouseDao> getckSingle(String s) {
-        String sql = "select  id,name,type,unit,remark,inventory,min,max from warehouse";
+        String sql = "select id,name,type,unit,remark,inventory,min,max from warehouse";
         List<warehouseDao> list = new LinkedList<>();
         try {
             Connection conn = JDBCUtil.getConnection();

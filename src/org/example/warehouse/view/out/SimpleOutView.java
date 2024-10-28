@@ -92,7 +92,6 @@ public class SimpleOutView extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setVisible(true);
-
     }
 
 

@@ -7,10 +7,9 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="javatest" />
+        <module name="poipoi" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="javatest" target="11" />
-    </bytecodeTargetLevel>
+    <bytecodeTargetLevel target="11" />
   </component>
 </project>
