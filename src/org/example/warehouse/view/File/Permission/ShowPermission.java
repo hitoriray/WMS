@@ -3,6 +3,7 @@ package org.example.warehouse.view.File.Permission;
 import org.example.warehouse.dao.PermissionDao;
 import org.example.warehouse.handler.MouserHandler;
 import org.example.warehouse.handler.ReviosionPermissionHandler1;
+import org.example.warehouse.view.LoginView;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -18,13 +19,15 @@ public class ShowPermission extends JFrame {
     ReviosionPermissionHandler1 reviosionPermissionHandler1;
     MouserHandler mouserHandler;
     private List<PermissionDao> list;
+    private LoginView loginView;
 
-    public ShowPermission(List<PermissionDao> list) {
+    public ShowPermission(List<PermissionDao> list, LoginView loginView) {
         super("人员权限");
         this.list = list;
+        this.loginView = loginView;
 
         mouserHandler = new MouserHandler(this);
-        reviosionPermissionHandler1 = new ReviosionPermissionHandler1(this);
+        reviosionPermissionHandler1 = new ReviosionPermissionHandler1(this, loginView);
         JPanel jPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         revision.setFont(new Font("楷体", Font.PLAIN, 18));
         inquirebutton.setFont(new Font("楷体", Font.PLAIN, 18));
@@ -71,6 +74,9 @@ public class ShowPermission extends JFrame {
 
     public String getidnumber(int row) {
         return list.get(row).getIDnumber();
+    }
+    public LoginView getLoginView() {
+        return this.loginView;
     }
 
 }

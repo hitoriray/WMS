@@ -41,67 +41,72 @@ public class MoreInHandler implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         JButton jButton = (JButton) e.getSource();
         String text = jButton.getText();
-        if (text.equals("添加行")) {
-            String[] rowValues = {"", "", "", "多物料入库", loginView.getUserTxt().getText()};//创建表格数组
-            moreInView.tableModel.addRow(rowValues);
-        } else if (text.equals("确认添加")) {
-            int rows = moreInView.table.getRowCount();
-            int cols = moreInView.table.getColumnCount();
-            System.out.println("rows" + rows);
-            System.out.println("cols" + cols);
+
+        if (text.equals("纭娣诲姞")) {
+            int rows = moreInView.inventoryTable.getRowCount();
+
+            // 鍒涘缓鏈嶅姟绫�
             UserService userService = new UserServiceImpl();
             warehouseDao ck = new warehouseDao();
             boundDao bo = new boundDao();
             AddBoundService addboundService = new AddBoundServiceImpl();
+
+            boolean ok = false;
             for (int i = 0; i < rows; i++) {
-                for (int j = 0; j < cols; j++) {
-                    if (moreInView.table.getValueAt(i, j).equals("") || moreInView.table.getValueAt(i, j) == null) {
-                        JOptionPane.showMessageDialog(null, "您填入的信息不完整！", "入库", 2);
+                Boolean isSelected = (Boolean) moreInView.inventoryTable.getValueAt(i, 0); // 鑾峰彇澶嶉€夋鐘舵€�
+                String quantity = (String) moreInView.inventoryTable.getValueAt(i, 8); // 鑾峰彇杈撳叆鐨勬暟閲�
+
+                if (isSelected != null && isSelected) { // 濡傛灉澶嶉€夋琚€変腑
+                    ok = true;
+                    if (quantity == null || quantity.trim().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "璇蜂负閫変腑鐨勮揣鐗╄緭鍏ユ暟閲忥紒", "鍏ュ簱", JOptionPane.WARNING_MESSAGE);
+                        return;
+                    }
+                    if (Integer.parseInt(quantity) <= 0) {
+                        JOptionPane.showMessageDialog(null, "璐х墿杈撳叆鏁伴噺涓嶅悎娉曪紒", "鍏ュ簱", JOptionPane.WARNING_MESSAGE);
                         return;
                     }
                 }
             }
-            for (int i = 0; i < rows; i++) {
-                boolean validId = userService.verifyId((String) moreInView.table.getValueAt(i, 0), (String) moreInView.table.getValueAt(i, 1));
-                if (!validId) {
-                    JOptionPane.showMessageDialog(null, "您输入的信息有误", "入库", 2);
-                    return;
-                }
-            }
-            int num1 = (int) (Math.random() * 10);
-            int num2 = (int) (Math.random() * 10);
-            int num3 = (int) (Math.random() * 10);
-            int num4 = (int) (Math.random() * 10);
-            String num = num1 + String.valueOf(num2) + num3 + num4;
-            for (int i = 0; i < rows; i++) {
-                ck.setId((String) moreInView.table.getValueAt(i, 0));
-                ck.setInventory((String) moreInView.table.getValueAt(i, 2));
-                RevisionItemService revisionItemService = new RevisionItemServiceImpl();
-                revisionItemService.revisionMoreNumber(ck);
-                bo.setDanhao("IN_MoreBound" + num);
-                bo.setId((String) moreInView.table.getValueAt(i, 0));
-                bo.setNumber((String) moreInView.table.getValueAt(i, 2));
-                bo.setBoundtype("入库");
-                bo.setName(loginView.getUserTxt().getText());
-                Date date = new Date();
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                bo.setTime(formatter.format(date));
-                addboundService.addBound(bo);
-            }
-            JOptionPane.showMessageDialog(null, "入库成功!" + "您的入库编号为" + "IN_MoreBound" + num, "入库", 1);
-        } else if (text.equals("删除行")) {
-            int selectedRow = moreInView.table.getSelectedRow();
-            if (selectedRow == -1) {
-                JOptionPane.showMessageDialog(null, "请选择要删除的行", "删除", 2);
+            if (!ok) {
+                JOptionPane.showMessageDialog(null, "璇烽€夋嫨闇€瑕佸叆搴撶殑鐗╂枡锛�", "鍏ュ簱", JOptionPane.WARNING_MESSAGE);
                 return;
             }
-            moreInView.tableModel.removeRow(selectedRow);
-        } else if (text.equals("查询货物信息")) {
-            List<warehouseDao> list = ShowDataInformation.getck();
-            new ShowckView(list);
-        } else if (text.equals("报表打印")) {
-            new ReportView();
+
+            for (int i = 0; i < rows; i++) {
+                Boolean isSelected = (Boolean) moreInView.inventoryTable.getValueAt(i, 0); // 鑾峰彇澶嶉€夋鐘舵€�
+                String quantity = (String) moreInView.inventoryTable.getValueAt(i, 8); // 鑾峰彇杈撳叆鐨勬暟閲�
+                String id = (String) moreInView.inventoryTable.getValueAt(i, 1);
+                String inventory = (String) moreInView.inventoryTable.getValueAt(i, 5);
+                if (isSelected != null && isSelected) { // 濡傛灉澶嶉€夋琚€変腑
+                    // 渚嬪锛氭洿鏂板簱瀛�
+                    RevisionItemService revisionItemService = new RevisionItemServiceImpl();
+                    ck.setId(id);
+                    String newInventory = String.valueOf(Integer.parseInt(inventory) + Integer.parseInt(quantity));
+                    ck.setInventory(newInventory);
+                    System.out.println("ck: " + ck.getId() + ", " + ck.getInventory());
+                    revisionItemService.revisionMoreNumber1(ck);
+
+                    // 璁板綍鍏ュ簱淇℃伅
+                    bo.setDanhao("IN_MoreBound" + generateRandomNumber());
+                    bo.setId((String) moreInView.inventoryTable.getValueAt(i, 1)); // 璐х墿缂栧彿
+                    bo.setNumber(quantity); // 璁剧疆鍏ュ簱鏁伴噺
+                    bo.setBoundtype("鍏ュ簱");
+                    bo.setName(loginView.getUserTxt().getText());
+                    bo.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+                    addboundService.addBound(bo);
+                }
+            }
+
+            JOptionPane.showMessageDialog(null, "鍏ュ簱鎴愬姛锛�", "鍏ュ簱", JOptionPane.INFORMATION_MESSAGE);
         }
+    }
+    private String generateRandomNumber() {
+        int num1 = (int) (Math.random() * 10);
+        int num2 = (int) (Math.random() * 10);
+        int num3 = (int) (Math.random() * 10);
+        int num4 = (int) (Math.random() * 10);
+        return num1 + String.valueOf(num2) + num3 + num4;
     }
 }
 

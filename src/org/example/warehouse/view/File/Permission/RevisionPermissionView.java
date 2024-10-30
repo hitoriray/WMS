@@ -2,118 +2,117 @@ package org.example.warehouse.view.File.Permission;
 
 import org.example.warehouse.dao.PermissionDao;
 import org.example.warehouse.handler.ReviosionPermissionHandler2;
+import org.example.warehouse.view.LoginView;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class RevisionPermissionView extends JFrame {
-    JPanel jPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 55, 50));
-    JLabel NameLabel = new JLabel("姓名：");
-    JTextField NameTxt = new JTextField();
-    JLabel IDLabel = new JLabel("身份证号：");
-    JTextField IDTxt = new JTextField();
-    int[] strArray = {0, 1};
+    private LoginView loginView;
+    private boolean isSuperAdmin;
+    JPanel jPanel = new JPanel(new GridBagLayout()); // 改用 GridBagLayout 进行布局
+
+    JLabel nameLabel = new JLabel("姓名：");
+    JTextField nameTxt = new JTextField();
+    JLabel idLabel = new JLabel("身份证号：");
+    JTextField idTxt = new JTextField();
+
     JLabel inquireLabel = new JLabel("查询权限:");
-    JComboBox inquireJB = new JComboBox();
-
-    {
-        inquireJB.addItem(strArray[0]);
-        inquireJB.addItem(strArray[1]);
-    }
-
+    JComboBox<String> inquireJB = new JComboBox<>(new String[]{"0", "1"});
     JLabel inLabel = new JLabel("入库权限:");
-    JComboBox inJB = new JComboBox();
-
-    {
-        inJB.addItem(strArray[0]);
-        inJB.addItem(strArray[1]);
-
-    }
-
-    JLabel outLable = new JLabel("出库权限:");
-    JComboBox outJB = new JComboBox();
-
-    {
-        outJB.addItem(strArray[0]);
-        outJB.addItem(strArray[1]);
-
-    }
-
+    JComboBox<String> inJB = new JComboBox<>(new String[]{"0", "1"});
+    JLabel outLabel = new JLabel("出库权限:");
+    JComboBox<String> outJB = new JComboBox<>(new String[]{"0", "1"});
     JLabel managerLabel = new JLabel("仓库管理权限:");
-    JComboBox managerJB = new JComboBox();
-
-    {
-        managerJB.addItem(strArray[0]);
-        managerJB.addItem(strArray[1]);
-
-    }
-
+    JComboBox<String> managerJB = new JComboBox<>(new String[]{"0", "1"});
     JLabel fileLabel = new JLabel("人员档案管理权限:");
-    JComboBox fileJB = new JComboBox();
+    JComboBox<String> fileJB = new JComboBox<>(new String[]{"0", "1"});
 
-    {
-        fileJB.addItem(strArray[0]);
-        fileJB.addItem(strArray[1]);
-
-    }
-
-    JButton RevisionBtn = new JButton("修 改");
+    JButton revisionBtn = new JButton("修 改");
     ReviosionPermissionHandler2 reviosionPermissionHandler2;
 
     public RevisionPermissionView(String name, String IDnumber, ShowPermission showPermission) {
-        super("修改");
+        super("修改权限");
+        this.loginView = showPermission.getLoginView();
+        String username = loginView.getUserTxt().getText().toString();
+        this.isSuperAdmin = username.equalsIgnoreCase("ray");
         reviosionPermissionHandler2 = new ReviosionPermissionHandler2(this, showPermission);
-        Container contentPane = getContentPane();
-        Font font = new Font("宋体", Font.PLAIN, 25);
-        Dimension dimension = new Dimension(120, 25);
-        NameLabel.setFont(font);
+        nameTxt.setText(name);
+        nameTxt.setEnabled(false);
+        idTxt.setText(IDnumber);
+        idTxt.setEnabled(false);
 
-        NameTxt.setPreferredSize(dimension);
-        NameTxt.setEnabled(false);
-        IDLabel.setFont(font);
-        IDTxt.setPreferredSize(dimension);
-        IDTxt.setEnabled(false);
-        inquireLabel.setFont(font);
-        inLabel.setFont(font);
-        outLable.setFont(font);
-        managerLabel.setFont(font);
-        fileLabel.setFont(font);
-        RevisionBtn.setFont(new Font("宋体", Font.PLAIN, 30));
-        NameTxt.setText(name);
-        IDTxt.setText(IDnumber);
-        jPanel.add(NameLabel);
-        jPanel.add(NameTxt);
-        jPanel.add(IDLabel);
-        jPanel.add(IDTxt);
-        jPanel.add(inquireLabel);
-        jPanel.add(inquireJB);
-        jPanel.add(inLabel);
-        jPanel.add(inJB);
-        jPanel.add(outLable);
-        jPanel.add(outJB);
-        jPanel.add(managerLabel);
-        jPanel.add(managerJB);
-        jPanel.add(fileLabel);
-        jPanel.add(fileJB);
-        jPanel.add(RevisionBtn);
-        RevisionBtn.addActionListener(reviosionPermissionHandler2);
-        contentPane.add(jPanel);
-        setSize(800, 500);
-        setResizable(false);
+
+        // 设置超级管理员条件
+        if (!isSuperAdmin) {
+            fileJB.setEnabled(false); // 非超级管理员无法修改档案权限
+        } else {
+            if (name.equalsIgnoreCase("ray")) {
+                inquireJB.setSelectedItem("1");
+                inquireJB.setEnabled(false);
+                inJB.setSelectedItem("1");
+                inJB.setEnabled(false);
+                outJB.setSelectedItem("1");
+                outJB.setEnabled(false);
+                managerJB.setSelectedItem("1");
+                managerJB.setEnabled(false);
+                fileJB.setSelectedItem("1");
+                fileJB.setEnabled(false);
+            } else {
+                fileJB.setSelectedItem("0"); // 超级管理员可选
+            }
+        }
+
+        // 布局设置
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        addComponent(nameLabel, 0, 0, gbc);
+        addComponent(nameTxt, 0, 1, gbc);
+        addComponent(idLabel, 1, 0, gbc);
+        addComponent(idTxt, 1, 1, gbc);
+        addComponent(inquireLabel, 2, 0, gbc);
+        addComponent(inquireJB, 2, 1, gbc);
+        addComponent(inLabel, 3, 0, gbc);
+        addComponent(inJB, 3, 1, gbc);
+        addComponent(outLabel, 4, 0, gbc);
+        addComponent(outJB, 4, 1, gbc);
+        addComponent(managerLabel, 5, 0, gbc);
+        addComponent(managerJB, 5, 1, gbc);
+        addComponent(fileLabel, 6, 0, gbc);
+        addComponent(fileJB, 6, 1, gbc);
+
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+        addComponent(revisionBtn, 7, 0, gbc);
+
+        revisionBtn.setFont(new Font("宋体", Font.BOLD, 22));
+        revisionBtn.addActionListener(reviosionPermissionHandler2);
+
+        getContentPane().add(jPanel);
+        setSize(500, 600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setVisible(true);
     }
 
-    public PermissionDao GetPermission() {
+    private void addComponent(Component comp, int row, int col, GridBagConstraints gbc) {
+        gbc.gridx = col;
+        gbc.gridy = row;
+        jPanel.add(comp, gbc);
+    }
+
+    public PermissionDao getPermission() {
         PermissionDao permissionDao = new PermissionDao();
-        permissionDao.setName(NameTxt.getText());
-        permissionDao.setIDnumber(IDTxt.getText());
-        permissionDao.setInquire(inquireJB.getSelectedItem().toString());
-        permissionDao.setInbound(inJB.getSelectedItem().toString());
-        permissionDao.setOutbound(outJB.getSelectedItem().toString());
-        permissionDao.setManager(managerJB.getSelectedItem().toString());
-        permissionDao.setFile(fileJB.getSelectedItem().toString());
+        permissionDao.setName(nameTxt.getText());
+        permissionDao.setIDnumber(idTxt.getText());
+        permissionDao.setInquire((String) inquireJB.getSelectedItem());
+        permissionDao.setInbound((String) inJB.getSelectedItem());
+        permissionDao.setOutbound((String) outJB.getSelectedItem());
+        permissionDao.setManager((String) managerJB.getSelectedItem());
+        permissionDao.setFile((String) fileJB.getSelectedItem());
         return permissionDao;
     }
 }

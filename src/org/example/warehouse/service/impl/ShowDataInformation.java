@@ -167,6 +167,29 @@ public class ShowDataInformation {
         return list;
     }
 
+    public static PermissionDao getPermissionByName(String name) {
+        String sql = "select name,IDnumber,inquire,inbound,outbound,manager,file from permissions where name=?";
+        PermissionDao permissionDao = new PermissionDao();
+        try {
+            Connection conn = JDBCUtil.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, name);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                permissionDao.setName(rs.getString("name"));
+                permissionDao.setIDnumber(rs.getString("IDnumber"));
+                permissionDao.setInquire(rs.getString("inquire"));
+                permissionDao.setInbound(rs.getString("inbound"));
+                permissionDao.setOutbound(rs.getString("outbound"));
+                permissionDao.setManager(rs.getString("manager"));
+                permissionDao.setFile(rs.getString("file"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return permissionDao;
+    }
+
     public static List<warehouseDao> getck() {
         String sql = "select id,name,type,unit,remark,inventory,min,max from warehouse";
         List<warehouseDao> list = new LinkedList<>();
@@ -213,7 +236,7 @@ public class ShowDataInformation {
     }
 
     public static List<warehouseDao> getckSingle(String s) {
-        String sql = "select id,name,type,unit,remark,inventory,min,max from warehouse";
+        String sql = "select  id,name,type,unit,remark,inventory,min,max from warehouse";
         List<warehouseDao> list = new LinkedList<>();
         try {
             Connection conn = JDBCUtil.getConnection();

@@ -4,6 +4,7 @@ import org.example.warehouse.dao.PermissionDao;
 import org.example.warehouse.service.impl.ShowDataInformation;
 import org.example.warehouse.view.File.InquirePersonSingleView;
 import org.example.warehouse.view.File.Permission.ShowPermission;
+import org.example.warehouse.view.LoginView;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -12,9 +13,11 @@ import java.util.List;
 
 public class ReviosionPermissionHandler1 implements ActionListener {
     private ShowPermission showPermission;
+    private LoginView loginView;
 
-    public ReviosionPermissionHandler1(ShowPermission showPermission) {
+    public ReviosionPermissionHandler1(ShowPermission showPermission, LoginView loginView) {
         this.showPermission = showPermission;
+        this.loginView = loginView;
     }
 
     @Override
@@ -32,7 +35,7 @@ public class ReviosionPermissionHandler1 implements ActionListener {
             if (list.size() == 0) {
                 JOptionPane.showMessageDialog(null, "暂无此人！", "查询", 2);
             } else {
-                new ShowPermission(list);
+                new ShowPermission(list, loginView);
             }
         }
     }

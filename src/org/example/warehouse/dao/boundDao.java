@@ -49,6 +49,7 @@ public class boundDao {
         this.boundtype = boundtype;
     }
 
+
     public String getName() {
         return name;
     }

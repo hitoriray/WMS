@@ -141,6 +141,26 @@ public class RevisionItemServiceImpl implements RevisionItemService {
     }
 
     @Override
+    public void revisionMoreNumber1(warehouseDao warehouseDao) {
+        String sql0 = "select inventory from warehouse where id=?";
+        String sql1 = "update warehouse set inventory=? where id=?";
+        try {
+            Connection conn = JDBCUtil.getConnection();
+            PreparedStatement ps0 = conn.prepareStatement(sql0);
+            ps0.setString(1, warehouseDao.getId());
+            PreparedStatement ps1 = conn.prepareStatement(sql1);
+            ResultSet rs0 = ps0.executeQuery();
+            if (rs0.next()) {
+                ps1.setString(1, String.valueOf(warehouseDao.getInventory()));
+                ps1.setString(2, warehouseDao.getId());
+                ps1.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public String revisionMoreNumberOut(warehouseDao warehouseDao) {
         String sql0 = "select id,inventory,min,max from warehouse where id=?";
         String sql1 = "update warehouse set inventory=? where id=?";

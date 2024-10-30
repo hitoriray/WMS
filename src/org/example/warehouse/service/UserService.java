@@ -1,9 +1,6 @@
 package org.example.warehouse.service;
 
 import org.example.warehouse.dao.UserDao;
-import org.example.warehouse.dao.warehouseDao;
-
-import java.util.List;
 
 public interface UserService {
     boolean verifyAdmin(UserDao userDao);
@@ -17,4 +14,5 @@ public interface UserService {
     boolean verifyName(String name);
 
     String selectID(String name);
+
 }
