@@ -52,14 +52,14 @@ public class MainView extends JFrame {
         // 添加查询子菜单
         menuInquire = new JMenu("查询");
         JMenuItem menuItem1 = new JMenuItem("查询所有货物");
-        JMenuItem menuItem2 = new JMenuItem("查询单个货物");
+//        JMenuItem menuItem2 = new JMenuItem("查询单个货物");
         JMenuItem menuItem3 = new JMenuItem("查询剩余库存");
         JMenuItem menuItem4 = new JMenuItem("查询入库情况");
         JMenuItem menuItem5 = new JMenuItem("查询出库情况");
 
         // 将查询选项加入到查询子菜单
         menuInquire.add(menuItem1);
-        menuInquire.add(menuItem2);
+//        menuInquire.add(menuItem2);
         menuInquire.addSeparator();
         menuInquire.add(menuItem3);
         menuInquire.add(menuItem4);
@@ -67,7 +67,7 @@ public class MainView extends JFrame {
 
         // 添加事件监听器
         menuItem1.addActionListener(new InquireMenuActionListener());
-        menuItem2.addActionListener(new InquireMenuActionListener());
+//        menuItem2.addActionListener(new InquireMenuActionListener());
         menuItem3.addActionListener(new InquireMenuActionListener());
         menuItem4.addActionListener(new InquireMenuActionListener());
         menuItem5.addActionListener(new InquireMenuActionListener());
@@ -225,9 +225,9 @@ public class MainView extends JFrame {
             JMenuItem menuItem = (JMenuItem) e.getSource();
             String text = menuItem.getText();
 
-            if (text.equals("查询单个货物")) {
+            /*if (text.equals("查询单个货物")) {
                 new SingleckView();
-            } else if (text.equals("查询所有货物")) {
+            } else */if (text.equals("查询所有货物")) {
                 List<warehouseDao> list = ShowDataInformation.getck();
                 new ShowckView(list);
             } else if (text.equals("查询剩余库存")) {
