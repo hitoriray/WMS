@@ -1,6 +1,7 @@
 package org.example.warehouse.view.Manager;
 
 import org.example.warehouse.dao.warehouseDao;
+import org.example.warehouse.service.impl.ShowDataInformation;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,16 +13,15 @@ public class LookSetupView extends JFrame {
     public LookSetupView(List<warehouseDao> list) {
         JPanel jPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         //table添加
-        String[] index = {"编号", "最小值", "最大值"};
+        String[] index = {"物品编号", "物品名称", "最小值", "最大值"};
         Object[][] data = new Object[list.size()][index.length];
-        System.out.println("size:" + list.size());
         for (int i = 0; i < list.size(); i++) {
             warehouseDao ck = list.get(i);
             data[i][0] = ck.getId();
-            data[i][1] = ck.getMin();
-            data[i][2] = ck.getMax();
+            data[i][1] = ShowDataInformation.getItemNameById(ck.getId());
+            data[i][2] = ck.getMin();
+            data[i][3] = ck.getMax();
         }
-        System.out.println("2222222222222");
         JTable table = new JTable(data, index);
         JScrollPane scrollPane = new JScrollPane(table);
         jFrame.getContentPane().add(jPanel, BorderLayout.NORTH);
@@ -33,6 +33,5 @@ public class LookSetupView extends JFrame {
         jFrame.setLocationRelativeTo(null);
         jFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         jFrame.setVisible(true);
-
     }
 }

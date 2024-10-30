@@ -75,6 +75,10 @@ public class ShowPermission extends JFrame {
     public String getidnumber(int row) {
         return list.get(row).getIDnumber();
     }
+
+    public String getFilePermission(int row) {
+        return list.get(row).getFile();
+    }
     public LoginView getLoginView() {
         return this.loginView;
     }

@@ -39,14 +39,20 @@ public class AddPersonHandler extends KeyAdapter implements ActionListener {
             }
 
             Pattern p1 = Pattern.compile("^[1-9]\\d{5}(18|19|([23]\\d))\\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\\d{3}[0-9Xx]$");
-            Matcher matcher = p1.matcher(iDnumber);
-            if (!matcher.matches()) {
+            Matcher idNumber_matcher = p1.matcher(iDnumber);
+            if (!idNumber_matcher.matches()) {
                 JOptionPane.showMessageDialog(null, "身份证号不合法", "添加", 2);
                 return;
             }
             if (!check(date)) {
-                JOptionPane.showMessageDialog(null, "出生日期不合规", "添加", 2);
+                JOptionPane.showMessageDialog(null, "出生日期不合法", "添加", 2);
             } else {
+                Pattern p2 = Pattern.compile("^1[3-9]\\d{9}$");
+                Matcher phone_mather = p2.matcher(phone);
+                if (!phone_mather.matches()) {
+                    JOptionPane.showMessageDialog(null, "手机号不合法", "添加", 2);
+                    return;
+                }
                 boolean ok = mainUserService.verifyAdd(userTotalDao);
                 if (ok) {
                     JOptionPane.showMessageDialog(null, "添加成功", "添加", 1);

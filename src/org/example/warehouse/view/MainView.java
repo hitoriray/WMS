@@ -15,22 +15,12 @@ import org.example.warehouse.view.File.RevisionPersonView;
 import org.example.warehouse.view.Manager.*;
 import org.example.warehouse.service.impl.ShowDataInformation;
 import org.example.warehouse.view.Inquire.*;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PiePlot;
-import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.data.general.DefaultPieDataset;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-
-import static org.jfree.chart.ChartFactory.createBarChart;
-import static org.jfree.chart.ChartFactory.createPieChart;
 
 public class MainView extends JFrame {
 
@@ -86,6 +76,7 @@ public class MainView extends JFrame {
 
         JMenuItem statisticsItem = new JMenuItem("查看进出库统计");
         menuOperations.add(statisticsItem);
+        statisticsItem.addActionListener(e -> new PieChartView().setVisible(true));
 
         // 入库子菜单
         menuInbound = new JMenu("入库");
@@ -203,33 +194,14 @@ public class MainView extends JFrame {
         // 将菜单栏添加到窗口
         setJMenuBar(menuBar);
 
-
-        // 创建 JLayeredPane 以支持分层显示
-        JLayeredPane layeredPane = new JLayeredPane();
-        layeredPane.setPreferredSize(new Dimension(1200, 800)); // 设置大小
-
-        // 背景图片
-        JLabel background = new JLabel(new ImageIcon("src/org/example/warehouse/BG.jpg"));
-        background.setBounds(0, 0, 1200, 800); // 设置位置和大小
-        layeredPane.add(background, Integer.valueOf(0)); // 添加到底层
-
-        // 创建透明背景的面板
-        JPanel statisticsPanel = new JPanel();
-        statisticsPanel.setLayout(new BorderLayout());
-        statisticsPanel.setOpaque(false); // 设置为透明
-        statisticsPanel.setBounds(0, 0, 1200, 800); // 设置与背景相同的大小
-        // 调用显示统计信息的方法
-        showStatisticsChartByItem(statisticsPanel);
-        showStatisticsChartByUser(statisticsPanel);
-        // 将统计面板添加到分层面板
-        layeredPane.add(statisticsPanel, Integer.valueOf(1)); // 添加到上层
-        // 将分层面板添加到内容面板
-        contentPane.add(layeredPane, BorderLayout.CENTER);
-
         // 顶部标题
         JLabel nameLabel = new JLabel("仓库管理系统中心界面", JLabel.CENTER);
         nameLabel.setFont(new Font("楷体", Font.PLAIN, 60));
         contentPane.add(nameLabel, BorderLayout.NORTH);
+
+        // 背景图片
+        JLabel background = new JLabel(new ImageIcon("src/org/example/warehouse/BG.jpg"));
+        contentPane.add(background, BorderLayout.CENTER);
 
         // 窗体设置
         setSize(1200, 800);
@@ -238,92 +210,6 @@ public class MainView extends JFrame {
         setResizable(true);
         setVisible(true);
     }
-
-    private void showStatisticsChartByItem(JPanel panel) {
-        System.out.println("Loading statistics by item...");
-
-        String startDate = "2024-01-01";
-        String endDate = "2024-12-31";
-        List<boundDao> statisticsData = ShowDataInformation.getStatisticsByItem(startDate, endDate);
-
-        if (statisticsData.isEmpty()) {
-            System.out.println("No data for item statistics.");
-        } else {
-            System.out.println("Data loaded for item statistics.");
-        }
-
-        // 选择绘制图表类型（饼状图）
-        JFreeChart chart = createPieChartByItem(statisticsData);
-        ChartPanel chartPanel = new ChartPanel(chart);
-        chartPanel.setOpaque(false); // 确保图表面板透明
-        chartPanel.setPreferredSize(new Dimension(600, 400)); // 设置合适的尺寸
-        panel.add(chartPanel, BorderLayout.WEST); // 使用 CENTER 位置
-    }
-
-    private void showStatisticsChartByUser(JPanel panel) {
-        System.out.println("Loading statistics by user...");
-
-        String startDate = "2024-01-01";
-        String endDate = "2024-12-31";
-        List<boundDao> statisticsData = ShowDataInformation.getStatisticsByUser(startDate, endDate);
-
-        if (statisticsData.isEmpty()) {
-            System.out.println("No data for user statistics.");
-        } else {
-            System.out.println("Data loaded for user statistics.");
-        }
-
-        // 选择绘制图表类型（饼状图）
-        JFreeChart chart = createPieChartByUser(statisticsData);
-        ChartPanel chartPanel = new ChartPanel(chart);
-        chartPanel.setOpaque(false); // 确保图表面板透明
-        chartPanel.setPreferredSize(new Dimension(600, 400)); // 设置合适的尺寸
-        panel.add(chartPanel, BorderLayout.EAST); // 使用 SOUTH 位置
-    }
-
-    // 创建饼状图
-    private JFreeChart createPieChartByItem(List<boundDao> statisticsData) {
-        DefaultPieDataset dataset = new DefaultPieDataset();
-
-        for (boundDao data : statisticsData) {
-            dataset.setValue(ShowDataInformation.getItemNameById(data.getId()) + " - " + data.getBoundtype(), Integer.parseInt(data.getNumber()));
-        }
-
-        JFreeChart pieChart = ChartFactory.createPieChart(
-                "出入库统计饼状图",  // 图表标题
-                dataset,           // 数据集
-                true,              // 是否显示图例
-                true,
-                false
-        );
-
-        // 设置饼图样式
-        PiePlot plot = (PiePlot) pieChart.getPlot();
-        plot.setCircular(true);
-        return pieChart;
-    }
-
-    private JFreeChart createPieChartByUser(List<boundDao> statisticsData) {
-        DefaultPieDataset dataset = new DefaultPieDataset();
-
-        for (boundDao data : statisticsData) {
-            dataset.setValue(data.getName() + " - " + data.getBoundtype(), Integer.parseInt(data.getNumber()));
-        }
-
-        JFreeChart pieChart = ChartFactory.createPieChart(
-                "出入库统计饼状图",  // 图表标题
-                dataset,           // 数据集
-                true,              // 是否显示图例
-                true,
-                false
-        );
-
-        // 设置饼图样式
-        PiePlot plot = (PiePlot) pieChart.getPlot();
-        plot.setCircular(true);
-        return pieChart;
-    }
-
 
     // 创建菜单项并添加事件监听
     private JMenuItem createMenuItem(String text) {
@@ -334,7 +220,6 @@ public class MainView extends JFrame {
 
     // 处理查询子菜单的事件
     private class InquireMenuActionListener implements ActionListener {
-
         @Override
         public void actionPerformed(ActionEvent e) {
             JMenuItem menuItem = (JMenuItem) e.getSource();

@@ -31,7 +31,7 @@ public class RevisionPermissionView extends JFrame {
     JButton revisionBtn = new JButton("修 改");
     ReviosionPermissionHandler2 reviosionPermissionHandler2;
 
-    public RevisionPermissionView(String name, String IDnumber, ShowPermission showPermission) {
+    public RevisionPermissionView(String name, String IDnumber, String filePermission, ShowPermission showPermission) {
         super("修改权限");
         this.loginView = showPermission.getLoginView();
         String username = loginView.getUserTxt().getText().toString();
@@ -41,7 +41,7 @@ public class RevisionPermissionView extends JFrame {
         nameTxt.setEnabled(false);
         idTxt.setText(IDnumber);
         idTxt.setEnabled(false);
-
+        fileJB.setSelectedItem(filePermission); // 设置为原来的权限值
 
         // 设置超级管理员条件
         if (!isSuperAdmin) {
@@ -59,7 +59,7 @@ public class RevisionPermissionView extends JFrame {
                 fileJB.setSelectedItem("1");
                 fileJB.setEnabled(false);
             } else {
-                fileJB.setSelectedItem("0"); // 超级管理员可选
+                fileJB.setSelectedItem("1"); // 超级管理员可选
             }
         }
 

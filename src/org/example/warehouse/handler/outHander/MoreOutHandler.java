@@ -40,20 +40,25 @@ public class MoreOutHandler implements ActionListener {
                 JOptionPane.showMessageDialog(null, "没有可出库的物料", "出库", JOptionPane.WARNING_MESSAGE);
                 return;
             }
-            System.out.println("rows: " + rows);
             for (int i = 0; i < rows; i++) {
                 Boolean isSelected = (Boolean) moreOutView.table.getValueAt(i, 0);
                 if (isSelected != null && isSelected) {
                     String materialId = (String) moreOutView.table.getValueAt(i, 1);
                     int outboundQty;
                     try {
-                        outboundQty = Integer.parseInt(moreOutView.table.getValueAt(i, 6).toString());
+                        outboundQty = Integer.parseInt(moreOutView.table.getValueAt(i, 8).toString());
                     } catch (NumberFormatException ex) {
                         JOptionPane.showMessageDialog(null, "请输入有效的出库数量", "出库", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
                     if (outboundQty <= 0) {
                         JOptionPane.showMessageDialog(null, "出库数量必须大于0", "出库", JOptionPane.WARNING_MESSAGE);
+                        return;
+                    }
+                    int minInvent = Integer.parseInt(moreOutView.table.getValueAt(i, 5).toString());
+                    int curInvent = Integer.parseInt(moreOutView.table.getValueAt(i, 7).toString());
+                    if (curInvent - outboundQty < minInvent) {
+                        JOptionPane.showMessageDialog(null, "出库后低于最小库存，无法出库！", "出库", JOptionPane.WARNING_MESSAGE);
                         return;
                     }
                     processOutbound(materialId, outboundQty);
@@ -73,8 +78,6 @@ public class MoreOutHandler implements ActionListener {
             return;
         }
         warehouseDao material = res.get(0);
-
-        System.out.println("material: " + material);
 
         if (material == null) {
             JOptionPane.showMessageDialog(null, "物料ID无效：" + materialId, "出库", 2);

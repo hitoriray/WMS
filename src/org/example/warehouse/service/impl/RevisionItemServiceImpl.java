@@ -27,6 +27,26 @@ public class RevisionItemServiceImpl implements RevisionItemService {
         }
     }
 
+    @Override
+    public boolean revisionItemAll(warehouseDao warehouseDao) {
+        String sql = "update warehouse set name=?,type=?,unit=?,remark=?,inventory=?,min=?,max=? where id=?";
+        try {
+            Connection conn = JDBCUtil.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, warehouseDao.getName());
+            ps.setString(2, warehouseDao.getType());
+            ps.setString(3, warehouseDao.getUnit());
+            ps.setString(4, warehouseDao.getRemark());
+            ps.setString(5, warehouseDao.getInventory());
+            ps.setString(6, warehouseDao.getMin());
+            ps.setString(7, warehouseDao.getMax());
+            ps.setString(8, warehouseDao.getId());
+            return ps.executeUpdate() == 1;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public boolean revisionSetup(warehouseDao warehouseDao) {
         String sql = "update warehouse set max=?,min=? where name=?";
         try {

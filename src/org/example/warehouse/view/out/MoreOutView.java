@@ -32,7 +32,7 @@ public class MoreOutView extends JFrame {
         jPanel.add(queryButton);
 
         // 定义表头
-        String[] columnNames = {"选择", "物料编号", "物料名称", "物料单位", "物料类型", "库存数量", "出库数量"};
+        String[] columnNames = {"选择", "物料编号", "物料名称", "物料单位", "物料类型", "最小库存", "最大库存", "库存数量", "出库数量"};
         tableModel = new DefaultTableModel(null, columnNames) {
             @Override
             public Class<?> getColumnClass(int columnIndex) {
@@ -58,7 +58,7 @@ public class MoreOutView extends JFrame {
     public void loadMaterials(List<warehouseDao> materialsData) {
         tableModel.setRowCount(0);
         for (warehouseDao w : materialsData) {
-            tableModel.addRow(new Object[]{false, w.getId(), w.getName(), w.getUnit(), w.getType(), w.getInventory(), 0});
+            tableModel.addRow(new Object[]{false, w.getId(), w.getName(), w.getUnit(), w.getType(), w.getMin(), w.getMax(), w.getInventory(), 0});
         }
     }
 }

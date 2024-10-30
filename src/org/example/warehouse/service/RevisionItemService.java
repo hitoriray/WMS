@@ -4,6 +4,7 @@ import org.example.warehouse.dao.warehouseDao;
 
 public interface RevisionItemService {
     boolean revisionItem(warehouseDao warehouseDao);
+    boolean revisionItemAll(warehouseDao warehouseDao);
 
     boolean revisionSetup(warehouseDao warehouseDao);
 

@@ -1,6 +1,5 @@
 package org.example.warehouse.handler;
 
-import com.mysql.jdbc.log.Log;
 import org.example.warehouse.dao.PermissionDao;
 import org.example.warehouse.service.RevisionPermissionService;
 import org.example.warehouse.service.impl.RevisionServiceImpl;
@@ -33,7 +32,8 @@ public class ReviosionPermissionHandler2 implements ActionListener {
         String name = loginView.getUserTxt().getText();
         PermissionDao curPermission = ShowDataInformation.getPermissionByName(name);  // 当前操作员的权限
         String canMofify = curPermission.getFile();
-        System.out.println(curPermission);
+        System.out.println("curPermission: " + curPermission);
+        System.out.println("canMofify: " + canMofify);
         if (canMofify != null && canMofify.equals("0")) {
             JOptionPane.showMessageDialog(null, "无修改权限！！！", "添加", 2);
             return;

@@ -57,13 +57,13 @@ public class InquirePersonView extends JFrame {
                     int selectedRow = table.getSelectedRow();
                     int col = table.getColumnModel().getColumnIndexAtX(e.getX());
                     int i = JOptionPane.showConfirmDialog(null, "是否删除？", "删除", JOptionPane.OK_CANCEL_OPTION);
-                    if (JOptionPane.OK_CANCEL_OPTION == i) {
-                        System.out.println("取消删除行：" + selectedRow);
-                    } else {
+                    if (JOptionPane.OK_OPTION == i) {
                         tableModel.removeRow(selectedRow);
                         String id = data[0][selectedRow][0].toString();
                         ShowDataInformation.deleteInformation(id);
                         data[0] = removeRow(data[0], selectedRow);
+                    } else {
+                        System.out.println("取消删除行：" + selectedRow);
                     }
                 }
             }

@@ -20,7 +20,7 @@ public class MouserHandler implements MouseListener {
         int col = ((JTable) e.getSource()).columnAtPoint(e.getPoint());
         String banner = "鼠标当前点击位置的坐标是" + row + "," + col;
         System.out.println(banner);
-        new RevisionPermissionView(showPermission.getname(row), showPermission.getidnumber(row), showPermission);
+        new RevisionPermissionView(showPermission.getname(row), showPermission.getidnumber(row), showPermission.getFilePermission(row), showPermission);
     }
 
     @Override

@@ -42,13 +42,9 @@ public class ReportHandler implements ActionListener {
                 data[i][5] = bo.getTime();
             }
             JTable table = new JTable(data, index);
-            try {
-                String filePath = "C:\\Users\\ray\\Desktop\\" + labelJB + "信息.xls";
-                reportView.outReport(table, filePath);
-                JOptionPane.showMessageDialog(null, "打印成功，文件保存在 " + filePath, "打印记录", 1);
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
+            String filePath = "C:\\Users\\ray\\Desktop\\" + labelJB + "信息.xls";
+            reportView.outReport(table, filePath);
+            JOptionPane.showMessageDialog(null, "打印成功，文件保存在 " + filePath, "打印记录", 1);
         }
     }
 }
