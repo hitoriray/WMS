@@ -10,10 +10,28 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class ShowDataInformation {
+
+    public static String getItemNameById(String id) {
+        String sql = "select name from warehouse where id=?";
+        try {
+            Connection conn = JDBCUtil.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString("name");
+            } else {
+                return "null";
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public static boolean deleteInformation(String name) {
         String sql = "delete from userinfo where name=?";
@@ -310,5 +328,55 @@ public class ShowDataInformation {
             throw new RuntimeException(e);
         }
         return list;
+    }
+
+    public static List<boundDao> getStatisticsByItem(String startDate, String endDate) {
+        List<boundDao> result = new ArrayList<>();
+        String query = "SELECT id, boundtype, SUM(CAST(number AS UNSIGNED)) as total FROM inventory " +
+                "WHERE time BETWEEN ? AND ? " +
+                "GROUP BY id, boundtype ORDER BY total DESC";
+
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, startDate);
+            stmt.setString(2, endDate);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                boundDao data = new boundDao();
+                data.setId(rs.getString("id"));
+                data.setBoundtype(rs.getString("boundtype"));
+                data.setNumber(String.valueOf(rs.getInt("total")));
+                result.add(data);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public static List<boundDao> getStatisticsByUser(String startDate, String endDate) {
+        List<boundDao> result = new ArrayList<>();
+        String query = "SELECT name, boundtype, SUM(CAST(number AS UNSIGNED)) as total FROM inventory " +
+                "WHERE time BETWEEN ? AND ? " +
+                "GROUP BY name, boundtype ORDER BY total DESC";
+
+        try (Connection conn = JDBCUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, startDate);
+            stmt.setString(2, endDate);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                boundDao data = new boundDao();
+                data.setName(rs.getString("name"));
+                data.setBoundtype(rs.getString("boundtype"));
+                data.setNumber(String.valueOf(rs.getInt("total")));
+                result.add(data);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 }
